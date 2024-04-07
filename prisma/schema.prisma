@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_LOCAL")
+}
+
+model User {
+  //--------------------------------------------------------
+  // Metadata
+  id          Int      @id @default(autoincrement())
+  nanoid      String   @unique
+  clerkId     String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  email       String   @unique
+  username    String   @unique
+  //--------------------------------------------------------
+  // Profile Data
+  firstName   String?
+  lastName    String?
+  rank        String?
+  description String?
+  languages   String?
+  countries   String?
+  socials     Json?
+  age         Int?
+  imageLink   String?
+  ratePerHour Decimal?
+  //--------------------------------------------------------
+  // Status
+  isAdmin     Boolean  @default(false)
+  isTeacher   Boolean  @default(false)
+  //--------------------------------------------------------
+}
