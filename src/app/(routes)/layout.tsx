@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+"use client"
 
 import { Inter } from "next/font/google"
 
@@ -11,11 +11,6 @@ import { ThemeProvider, useColorProvider } from "@context"
 import { Topbar } from "@components"
 
 const inter = Inter({ subsets: ["latin"] })
-
-export const metadata: Metadata = {
-  title: "Brasil Nihon Kiin",
-  description: "A Casa da Brasil Nihon Kiin",
-}
 
 export default function RootLayout({
   children,
@@ -31,14 +26,11 @@ function ThemedApp({ children }: ReactChildren) {
   const { theme } = useColorProvider()
 
   return (
-    <html
-      // data-theme={theme}
-      lang="en"
-    >
+    <html data-theme={theme} lang="en">
       <body
         className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
       >
-        {/* <Topbar /> */}
+        <Topbar />
         {children}
       </body>
     </html>
