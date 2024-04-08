@@ -39,6 +39,12 @@
       "@components": [
         "./src/lib/components/exports"
       ],
+      "@context/*": [
+        "./src/lib/context/*"
+      ],
+      "@context": [
+        "./src/lib/context/exports"
+      ],
       "@types/*": [
         "./src/lib/types/*"
       ],
