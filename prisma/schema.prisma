@@ -51,36 +51,43 @@ model User {
 model Game {
   //--------------------------------------------------------
   // Metadata
-  id             Int      @id @default(autoincrement())
-  nanoid         String   @unique
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now())
+  id                  Int      @id @default(autoincrement())
+  nanoid              String   @unique
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now())
   //--------------------------------------------------------
   // Data
-  ranked         Boolean  @default(true)
-  isolatedElo    Boolean  @default(false)
-  dateTime       DateTime
-  result         String
-  eloBlack       Decimal
-  eloDeltaBlack  Decimal
-  eloWhite       Decimal
-  eloDeltaWhite  Decimal
-  komi           Decimal  @default(6.5)
-  rules          String   @default("Japanese")
-  handicapStones Int      @default(0)
-  handicapPoints Decimal  @default(0)
-  extraInfo      String?
-  sgf            String?
-  ogsLink        String?
-  aiSenseiLink   String?
-  otherLinks     Json?
+  dateTime            DateTime
+  // Result
+  result              String
+  resultColor         String
+  resultByResignation Boolean
+  resultByPoints      Decimal?
+  resultByTime        Boolean  @default(false)
+  // Elo
+  ranked              Boolean  @default(true)
+  isolatedElo         Boolean  @default(false)
+  eloBlack            Decimal
+  eloDeltaBlack       Decimal
+  eloWhite            Decimal
+  eloDeltaWhite       Decimal
+  // Extra Info
+  komi                Decimal  @default(6.5)
+  rules               String   @default("Japanese")
+  handicapStones      Int      @default(0)
+  handicapPoints      Decimal  @default(0)
+  extraInfo           String?
+  sgf                 String?
+  ogsLink             String?
+  aiSenseiLink        String?
+  otherLinks          Json?
   //--------------------------------------------------------
   // Relationships
-  winner         User     @relation("winnerPlayer", fields: [winnerId], references: [id])
-  winnerId       Int
-  black          User     @relation("blackPlayer", fields: [blackId], references: [id])
-  blackId        Int
-  white          User     @relation("whitePlayer", fields: [whiteId], references: [id])
-  whiteId        Int
+  winner              User     @relation("winnerPlayer", fields: [winnerId], references: [id])
+  winnerId            Int
+  black               User     @relation("blackPlayer", fields: [blackId], references: [id])
+  blackId             Int
+  white               User     @relation("whitePlayer", fields: [whiteId], references: [id])
+  whiteId             Int
   //--------------------------------------------------------
 }

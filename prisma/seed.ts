@@ -1,6 +1,13 @@
-import { Prisma } from "@prisma/client"
+import { Game, Prisma } from "@prisma/client"
 
-import prisma from "../src/lib/utils/prisma_utils"
+import { prisma } from "../src/lib/utils/prisma_utils"
+
+import {
+  Color,
+  calculateElo,
+  getGameResult,
+} from "../src/lib/utils/elo"
+import Decimal from "decimal.js"
 
 async function deleteAll() {
   try {
@@ -45,6 +52,10 @@ async function createUsers() {
 type GameCreationData = {
   dateTime: Date
   result: string
+  resultColor: Color
+  resultByResignation: boolean
+  resultByPoints?: number
+  resultByTime?: boolean
   winnerId: number
   blackId: number
   whiteId: number
@@ -52,74 +63,40 @@ type GameCreationData = {
   eloWhite?: number
 }
 
-enum Color {
-  Black,
-  White,
-}
-
-enum GameResult {
-  Black,
-  White,
-  Tie,
-}
-
-function findK(elo: number) {
-  if (elo < 1500) return 50
-  else if (elo >= 1500) return 40
-  else return 30
-}
-
-function findScore(gameResult: GameResult) {
-  switch (gameResult) {
-    case GameResult.Black:
-      return { scoreBlack: 1, scoreWhite: 0 }
-    case GameResult.White:
-      return { scoreBlack: 0, scoreWhite: 1 }
-    case GameResult.Tie:
-      return { scoreBlack: 0.5, scoreWhite: 0.5 }
-  }
-}
-
-function calculateElo(
-  eloBlack: number,
-  eloWhite: number,
-  gameResult: GameResult
-) {
-  const ratingDiffBlack = eloWhite - eloBlack
-  const ratingDiffWhite = eloBlack - eloWhite
-
-  const expectedBlack =
-    1 / (1 + 10 ** (ratingDiffBlack / 400))
-  const expectedWhite =
-    1 / (1 + 10 ** (ratingDiffWhite / 400))
-
-  const kBlack = findK(eloBlack)
-  const kWhite = findK(eloWhite)
-
-  const { scoreBlack, scoreWhite } = findScore(gameResult)
-
-  const eloDeltaBlack =
-    (scoreBlack - expectedBlack) * kBlack
-  const eloDeltaWhite =
-    (scoreWhite - expectedWhite) * kWhite
-
-  return { eloDeltaBlack, eloDeltaWhite }
-}
-
-function getGameResult(result: string) {
-  return result.includes("W")
-    ? GameResult.White
-    : result.includes("B")
-    ? GameResult.Black
-    : GameResult.Tie
-}
+// Pick<
+//   Game,
+//   | "dateTime"
+//   | "result"
+//   | "resultColor"
+//   | "resultByResignation"
+//   | "resultByPoints"
+//   | "resultByTime"
+//   | "winnerId"
+//   | "blackId"
+//   | "whiteId"
+//   | "eloBlack"
+//   | "eloWhite"
+// >
 
 async function createGames() {
   try {
     const gamesCreationData: GameCreationData[] = [
       {
-        dateTime: new Date(),
+        dateTime: new Date(2024, 3, 8),
         result: "W+R",
+        resultColor: Color.White,
+        resultByResignation: true,
+        winnerId: 1,
+        blackId: 2,
+        whiteId: 1,
+        eloBlack: 2100,
+        eloWhite: 2200,
+      },
+      {
+        dateTime: new Date(2024, 3, 9),
+        result: "B+R",
+        resultColor: Color.Black,
+        resultByResignation: true,
         winnerId: 1,
         blackId: 2,
         whiteId: 1,
@@ -145,6 +122,8 @@ async function createGames() {
           nanoid: i.toString(),
           dateTime: gData.dateTime,
           result: gData.result,
+          resultColor: gData.resultColor,
+          resultByResignation: gData.resultByResignation,
           eloBlack,
           eloDeltaBlack,
           eloWhite,
