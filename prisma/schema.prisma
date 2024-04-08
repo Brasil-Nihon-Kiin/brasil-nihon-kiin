@@ -49,6 +49,7 @@ model User {
   wins               Game[]    @relation("winnerPlayer")
   Article            Article[]
   Comment            Comment[]
+  Sale               Sale[]
   //--------------------------------------------------------
 }
 
@@ -208,6 +209,50 @@ model CalendarSlot {
   // Relationships
   event     Event?   @relation(fields: [eventId], references: [id])
   eventId   Int?
+  //--------------------------------------------------------
+}
+
+//----------------------------------------------------------
+// Store
+
+model Product {
+  //--------------------------------------------------------
+  // Metadata
+  id             Int      @id @default(autoincrement())
+  nanoid         String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  name           String
+  description    String?
+  price          Decimal
+  isSubscription Boolean  @default(false)
+  //--------------------------------------------------------
+  // Relationships
+  Sale           Sale[]
+  //--------------------------------------------------------
+}
+
+model Sale {
+  //--------------------------------------------------------
+  // Metadata
+  id             Int      @id @default(autoincrement())
+  nanoid         String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  units          Int
+  totalPaid      Decimal
+  address        String?
+  requestMessage String?
+  //--------------------------------------------------------
+  // Relationships
+  purchaser      User     @relation(fields: [purchaserId], references: [id])
+  purchaserId    Int
+  product        Product  @relation(fields: [productId], references: [id])
+  productId      Int
   //--------------------------------------------------------
 }
 

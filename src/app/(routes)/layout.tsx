@@ -6,7 +6,7 @@ import "./globals.css"
 
 import { ReactChildren } from "@types"
 
-import { ThemeProvider, useTheme } from "@context"
+import { ThemeProvider, useColorProvider } from "@context"
 
 import { Topbar } from "@components"
 
@@ -28,7 +28,7 @@ export default function RootLayout({
 }
 
 function ThemedApp({ children }: ReactChildren) {
-  // const { theme } = useTheme()
+  const { theme } = useColorProvider()
 
   return (
     <html
@@ -38,7 +38,7 @@ function ThemedApp({ children }: ReactChildren) {
       <body
         className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
       >
-        <Topbar />
+        {/* <Topbar /> */}
         {children}
       </body>
     </html>

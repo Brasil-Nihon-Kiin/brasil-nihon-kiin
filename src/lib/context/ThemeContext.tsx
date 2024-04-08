@@ -33,7 +33,7 @@ export function ThemeProvider({ children }: ReactChildren) {
   )
 }
 
-export function useTheme() {
+export function useColorProvider() {
   const context = useContext(ThemeContext)
 
   if (!context) {
