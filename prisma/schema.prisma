@@ -10,30 +10,77 @@ datasource db {
 model User {
   //--------------------------------------------------------
   // Metadata
-  id          Int      @id @default(autoincrement())
-  nanoid      String   @unique
-  clerkId     String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  id                 Int      @id @default(autoincrement())
+  nanoid             String   @unique
+  clerkId            String   @unique
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now())
   //--------------------------------------------------------
   // Data
-  email       String   @unique
-  username    String   @unique
-  //--------------------------------------------------------
+  email              String   @unique
+  username           String   @unique
   // Profile Data
-  firstName   String?
-  lastName    String?
-  rank        String?
-  description String?
-  languages   String?
-  countries   String?
-  socials     Json?
-  age         Int?
-  imageLink   String?
-  ratePerHour Decimal?
+  firstName          String?
+  lastName           String?
+  description        String?
+  languages          String[]
+  countriesOfOrigin  String[]
+  statesOfOrigin     String[]
+  citiesOfOrigin     String[]
+  countryOfResidence String?
+  stateOfResidence   String?
+  citiesOfResidence  String?
+  socialsLinks       Json?
+  socialsUsers       Json?
+  age                Int?
+  imageLink          String?
+  ratePerHour        Decimal?
+  //--------------------------------------------------------
+  // Rank Data
+  elo                Decimal?
   //--------------------------------------------------------
   // Status
-  isAdmin     Boolean  @default(false)
-  isTeacher   Boolean  @default(false)
+  isAdmin            Boolean  @default(false)
+  isTeacher          Boolean  @default(false)
+  //--------------------------------------------------------
+  blackGames         Game[]   @relation("blackPlayer")
+  whiteGames         Game[]   @relation("whitePlayer")
+  wins               Game[]   @relation("winnerPlayer")
+}
+
+model Game {
+  //--------------------------------------------------------
+  // Metadata
+  id             Int      @id @default(autoincrement())
+  nanoid         String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  ranked         Boolean  @default(true)
+  isolatedElo    Boolean  @default(false)
+  dateTime       DateTime
+  result         String
+  eloBlack       Decimal
+  eloDeltaBlack  Decimal
+  eloWhite       Decimal
+  eloDeltaWhite  Decimal
+  komi           Decimal  @default(6.5)
+  rules          String   @default("Japanese")
+  handicapStones Int      @default(0)
+  handicapPoints Decimal  @default(0)
+  extraInfo      String?
+  sgf            String?
+  ogsLink        String?
+  aiSenseiLink   String?
+  otherLinks     Json?
+  //--------------------------------------------------------
+  // Relationships
+  winner         User     @relation("winnerPlayer", fields: [winnerId], references: [id])
+  winnerId       Int
+  black          User     @relation("blackPlayer", fields: [blackId], references: [id])
+  blackId        Int
+  white          User     @relation("whitePlayer", fields: [whiteId], references: [id])
+  whiteId        Int
   //--------------------------------------------------------
 }
