@@ -1,5 +1,7 @@
-import "./globals.css"
 import { Inter } from "next/font/google"
+import "./globals.css"
+
+import { ReactChildren } from "@types"
 
 export const metadata = {
   metadataBase: new URL("https://nihonkiin.com.br"),
@@ -15,12 +17,11 @@ const inter = Inter({
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: ReactChildren) {
   return (
     <html lang="en">
       <body className={inter.variable}>{children}</body>
     </html>
   )
 }
+

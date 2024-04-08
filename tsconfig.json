@@ -25,13 +25,25 @@
     ],
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
+      ],
+      "@actions/*": [
+        "./src/lib/actions/*"
+      ],
+      "@actions": [
+        "./src/lib/components/exports"
       ],
       "@components/*": [
         "./src/lib/components/*"
       ],
       "@components": [
         "./src/lib/components/exports"
+      ],
+      "@types/*": [
+        "./src/lib/types/*"
+      ],
+      "@types": [
+        "./src/lib/types/exports"
       ],
       "@utils/*": [
         "./src/lib/utils/*"
