@@ -51,10 +51,10 @@ model User {
 model Game {
   //--------------------------------------------------------
   // Metadata
-  id                  Int      @id @default(autoincrement())
-  nanoid              String   @unique
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @default(now())
+  id                  Int         @id @default(autoincrement())
+  nanoid              String      @unique
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @default(now())
   //--------------------------------------------------------
   // Data
   dateTime            DateTime
@@ -63,19 +63,19 @@ model Game {
   resultColor         String
   resultByResignation Boolean
   resultByPoints      Decimal?
-  resultByTime        Boolean  @default(false)
+  resultByTime        Boolean     @default(false)
   // Elo
-  ranked              Boolean  @default(true)
-  isolatedElo         Boolean  @default(false)
+  ranked              Boolean     @default(true)
+  isolatedElo         Boolean     @default(false)
   eloBlack            Decimal
   eloDeltaBlack       Decimal
   eloWhite            Decimal
   eloDeltaWhite       Decimal
   // Extra Info
-  komi                Decimal  @default(6.5)
-  rules               String   @default("Japanese")
-  handicapStones      Int      @default(0)
-  handicapPoints      Decimal  @default(0)
+  komi                Decimal     @default(6.5)
+  rules               String      @default("Japanese")
+  handicapStones      Int         @default(0)
+  handicapPoints      Decimal     @default(0)
   extraInfo           String?
   sgf                 String?
   ogsLink             String?
@@ -83,11 +83,32 @@ model Game {
   otherLinks          Json?
   //--------------------------------------------------------
   // Relationships
-  winner              User     @relation("winnerPlayer", fields: [winnerId], references: [id])
+  winner              User        @relation("winnerPlayer", fields: [winnerId], references: [id])
   winnerId            Int
-  black               User     @relation("blackPlayer", fields: [blackId], references: [id])
+  black               User        @relation("blackPlayer", fields: [blackId], references: [id])
   blackId             Int
-  white               User     @relation("whitePlayer", fields: [whiteId], references: [id])
+  white               User        @relation("whitePlayer", fields: [whiteId], references: [id])
   whiteId             Int
+  tournament          Tournament? @relation(fields: [tournamentId], references: [id])
+  tournamentId        Int?
+  //--------------------------------------------------------
+}
+
+model Tournament {
+  //--------------------------------------------------------
+  // Metadata
+  id         Int      @id @default(autoincrement())
+  nanoid     String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  startTime  DateTime
+  endTime    DateTime
+  link       String?
+  otherLinks Json?
+  //--------------------------------------------------------
+  // Relationships
+  Game       Game[]
   //--------------------------------------------------------
 }

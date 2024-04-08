@@ -1,13 +1,16 @@
-import { Game, Prisma } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
 import { prisma } from "../src/lib/utils/prisma_utils"
 
+import "../src/lib/utils/array"
 import {
   Color,
   calculateElo,
   getGameResult,
 } from "../src/lib/utils/elo"
-import Decimal from "decimal.js"
+import { toNumber } from "../src/lib/utils/utils"
+
+import { NumberId } from "../src/lib/types/id"
 
 async function deleteAll() {
   try {
@@ -63,20 +66,35 @@ type GameCreationData = {
   eloWhite?: number
 }
 
-// Pick<
-//   Game,
-//   | "dateTime"
-//   | "result"
-//   | "resultColor"
-//   | "resultByResignation"
-//   | "resultByPoints"
-//   | "resultByTime"
-//   | "winnerId"
-//   | "blackId"
-//   | "whiteId"
-//   | "eloBlack"
-//   | "eloWhite"
-// >
+async function findLastElo(playerId: NumberId) {
+  try {
+    const lastGamesByPlayer = await prisma.game.findMany({
+      where: {
+        OR: [
+          {
+            blackId: playerId,
+          },
+          {
+            whiteId: playerId,
+          },
+        ],
+      },
+      orderBy: { dateTime: "desc" },
+      take: 1,
+    })
+
+    if (lastGamesByPlayer.length === 0) return null
+
+    const lastGame = lastGamesByPlayer.first()
+
+    if (lastGame.blackId === playerId)
+      return lastGame.eloBlack.add(lastGame.eloDeltaBlack)
+    else
+      return lastGame.eloWhite.add(lastGame.eloDeltaWhite)
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 async function createGames() {
   try {
@@ -100,20 +118,21 @@ async function createGames() {
         winnerId: 1,
         blackId: 2,
         whiteId: 1,
-        eloBlack: 2100,
-        eloWhite: 2200,
       },
     ]
 
     for (const [i, gData] of gamesCreationData.entries()) {
-      const eloBlack = gData.eloBlack ?? 1000
-      const eloWhite = gData.eloWhite ?? 1000
+      const lastEloBlack = await findLastElo(gData.blackId)
+      const lastEloWhite = await findLastElo(gData.whiteId)
+
+      const eloBlack = gData.eloBlack ?? lastEloBlack!
+      const eloWhite = gData.eloWhite ?? lastEloWhite!
 
       const gameResult = getGameResult(gData.result)
 
       const { eloDeltaBlack, eloDeltaWhite } = calculateElo(
-        eloBlack,
-        eloWhite,
+        toNumber(eloBlack),
+        toNumber(eloWhite),
         gameResult
       )
 
