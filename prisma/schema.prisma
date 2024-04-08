@@ -10,15 +10,15 @@ datasource db {
 model User {
   //--------------------------------------------------------
   // Metadata
-  id                 Int      @id @default(autoincrement())
-  nanoid             String   @unique
-  clerkId            String   @unique
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @default(now())
+  id                 Int       @id @default(autoincrement())
+  nanoid             String    @unique
+  clerkId            String    @unique
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @default(now())
   //--------------------------------------------------------
   // Data
-  email              String   @unique
-  username           String   @unique
+  email              String    @unique
+  username           String    @unique
   // Profile Data
   firstName          String?
   lastName           String?
@@ -40,13 +40,20 @@ model User {
   elo                Decimal?
   //--------------------------------------------------------
   // Status
-  isAdmin            Boolean  @default(false)
-  isTeacher          Boolean  @default(false)
+  isAdmin            Boolean   @default(false)
+  isTeacher          Boolean   @default(false)
   //--------------------------------------------------------
-  blackGames         Game[]   @relation("blackPlayer")
-  whiteGames         Game[]   @relation("whitePlayer")
-  wins               Game[]   @relation("winnerPlayer")
+  // Relationships
+  blackGames         Game[]    @relation("blackPlayer")
+  whiteGames         Game[]    @relation("whitePlayer")
+  wins               Game[]    @relation("winnerPlayer")
+  Article            Article[]
+  Comment            Comment[]
+  //--------------------------------------------------------
 }
+
+//----------------------------------------------------------
+// Games
 
 model Game {
   //--------------------------------------------------------
@@ -69,10 +76,10 @@ model Game {
   isolatedElo         Boolean     @default(false)
   eloBlack            Decimal
   eloDeltaBlack       Decimal
-  bonusEloBlack       Decimal
+  bonusEloBlack       Decimal?
   eloWhite            Decimal
   eloDeltaWhite       Decimal
-  bonusEloWhite       Decimal
+  bonusEloWhite       Decimal?
   // Extra Info
   komi                Decimal     @default(6.5)
   rules               String      @default("Japanese")
@@ -99,18 +106,109 @@ model Game {
 model Tournament {
   //--------------------------------------------------------
   // Metadata
-  id         Int      @id @default(autoincrement())
-  nanoid     String   @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  nanoid          String   @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now())
   //--------------------------------------------------------
   // Data
-  startTime  DateTime
-  endTime    DateTime
-  link       String?
-  otherLinks Json?
+  startTime       DateTime
+  endTime         DateTime
+  // Links
+  link            String?
+  otherLinks      Json?
+  // Location
+  online          Boolean  @default(false)
+  locationCountry String?
+  locationState   String?
+  locationCity    String?
+  host            String?
+  address         String?
+  // Other Data
+  pricing         Json?
   //--------------------------------------------------------
   // Relationships
-  Game       Game[]
+  Game            Game[]
   //--------------------------------------------------------
 }
+
+//----------------------------------------------------------
+// Content
+
+model Article {
+  //--------------------------------------------------------
+  // Metadata
+  id        Int      @id @default(autoincrement())
+  nanoid    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  content   String
+  //--------------------------------------------------------
+  // Relationships
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  event     Event?   @relation(fields: [eventId], references: [id])
+  eventId   Int?
+  //--------------------------------------------------------
+}
+
+model Comment {
+  //--------------------------------------------------------
+  // Metadata
+  id          Int      @id @default(autoincrement())
+  nanoid      String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  content     String
+  //--------------------------------------------------------
+  // Relationships
+  commenter   User     @relation(fields: [commenterId], references: [id])
+  commenterId Int
+  //--------------------------------------------------------
+}
+
+//----------------------------------------------------------
+// Calendar
+
+model Event {
+  //--------------------------------------------------------
+  // Metadata
+  id            Int            @id @default(autoincrement())
+  nanoid        String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now())
+  //--------------------------------------------------------
+  // Data
+  name          String
+  description   String
+  //--------------------------------------------------------
+  // Relationships
+  CalendarSlots CalendarSlot[]
+  Articles      Article[]
+  //--------------------------------------------------------
+}
+
+model CalendarSlot {
+  //--------------------------------------------------------
+  // Metadata
+  id        Int      @id @default(autoincrement())
+  nanoid    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  //--------------------------------------------------------
+  // Data
+  startTime DateTime
+  endTime   DateTime
+  name      String?
+  //--------------------------------------------------------
+  // Relationships
+  event     Event?   @relation(fields: [eventId], references: [id])
+  eventId   Int?
+  //--------------------------------------------------------
+}
+
+//----------------------------------------------------------
