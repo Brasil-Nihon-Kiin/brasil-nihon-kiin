@@ -1,9 +1,11 @@
+import withMT from "@material-tailwind/react/utils/withMT"
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+module.exports = withMT({
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}",
+    "./src/app/(routes)/**/*.{js,ts,jsx,tsx}",
+    "./src/lib/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -12,5 +14,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
-}
+  plugins: [require("daisyui")],
+})
