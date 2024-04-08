@@ -10,7 +10,7 @@ import {
 } from "../src/lib/utils/elo"
 import { toNumber } from "../src/lib/utils/utils"
 
-import { NumberId } from "../src/lib/types/id"
+import { findLastElo } from "../src/lib/actions/games/post_game"
 
 async function deleteAll() {
   try {
@@ -64,36 +64,6 @@ type GameCreationData = {
   whiteId: number
   eloBlack?: number
   eloWhite?: number
-}
-
-async function findLastElo(playerId: NumberId) {
-  try {
-    const lastGamesByPlayer = await prisma.game.findMany({
-      where: {
-        OR: [
-          {
-            blackId: playerId,
-          },
-          {
-            whiteId: playerId,
-          },
-        ],
-      },
-      orderBy: { dateTime: "desc" },
-      take: 1,
-    })
-
-    if (lastGamesByPlayer.length === 0) return null
-
-    const lastGame = lastGamesByPlayer.first()
-
-    if (lastGame.blackId === playerId)
-      return lastGame.eloBlack.add(lastGame.eloDeltaBlack)
-    else
-      return lastGame.eloWhite.add(lastGame.eloDeltaWhite)
-  } catch (e) {
-    console.error(e)
-  }
 }
 
 async function createGames() {

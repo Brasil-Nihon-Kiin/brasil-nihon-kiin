@@ -69,8 +69,10 @@ model Game {
   isolatedElo         Boolean     @default(false)
   eloBlack            Decimal
   eloDeltaBlack       Decimal
+  bonusEloBlack       Decimal
   eloWhite            Decimal
   eloDeltaWhite       Decimal
+  bonusEloWhite       Decimal
   // Extra Info
   komi                Decimal     @default(6.5)
   rules               String      @default("Japanese")
