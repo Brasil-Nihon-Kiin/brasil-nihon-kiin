@@ -4,5 +4,8 @@
     ".next": true,
     ".vercel": true,
     "next-env.d.ts": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
   }
 }

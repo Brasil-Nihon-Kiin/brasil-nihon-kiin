@@ -6,7 +6,7 @@ import { ReactChildren } from "@types"
 export const metadata = {
   metadataBase: new URL("https://nihonkiin.com.br"),
   title: "Brasil Nihon Kiin",
-  description: "Brasil Nihon Kiin",
+  description: "A Casa da Brasil Nihon Kiin",
 }
 
 const inter = Inter({
@@ -24,4 +24,3 @@ export default function RootLayout({
     </html>
   )
 }
-
