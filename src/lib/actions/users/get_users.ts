@@ -15,8 +15,10 @@ export async function getUser(
       where: { nanoid: nid },
       include: { articles: includeArticles },
     })
+    
+    return JSON.parse(JSON.stringify(user))
 
-    return user ? toJSON(user) : NextResponse.json({})
+    // return user ? toJSON(user) : NextResponse.json({})
   } catch (e) {
     console.error(e)
   }

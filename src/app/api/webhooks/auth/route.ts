@@ -44,6 +44,8 @@ export async function POST(req: Request) {
   try {
     const verifiedPayload = await validateRequest(req)
 
+    console.log("before verification")
+
     if (verifiedPayload) {
       const data = verifiedPayload.data as UserJSON
       const type = verifiedPayload.type
@@ -86,6 +88,7 @@ async function createUser(userData: UserJSON) {
       publicMetadata: {
         nanoid: user?.nanoid,
         isAdmin: false,
+        isWriter: false,
       },
     })
 

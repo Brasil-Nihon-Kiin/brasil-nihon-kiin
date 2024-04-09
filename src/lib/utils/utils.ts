@@ -17,7 +17,7 @@ export function toDate(d: Date | string | number) {
   return new Date(d)
 }
 
-export function toJSON(o: Object) {
+export function toJSON(o: Object | null | undefined) {
   return JSON.parse(JSON.stringify(o))
 }
 

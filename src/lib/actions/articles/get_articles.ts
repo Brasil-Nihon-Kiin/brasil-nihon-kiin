@@ -26,7 +26,7 @@ export async function getArticle(nid: Nid) {
       include: { author: true },
     })
 
-    return article ? toJSON(article) : NextResponse.json({})
+    return toJSON(article) 
   } catch (e) {
     console.error(e)
   }
