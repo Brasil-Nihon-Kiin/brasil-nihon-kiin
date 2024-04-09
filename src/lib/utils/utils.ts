@@ -12,3 +12,7 @@ export function toNumber(n: number | Decimal | string) {
   )
   return d.toNumber()
 }
+
+export function toJSON(o: Object) {
+  return JSON.parse(JSON.stringify(o))
+}

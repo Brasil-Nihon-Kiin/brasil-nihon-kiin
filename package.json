@@ -25,7 +25,7 @@
     "lint": "next lint"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --project tsconfig.json --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@clerk/localizations": "^1.28.2",

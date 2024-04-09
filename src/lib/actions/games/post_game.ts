@@ -1,3 +1,5 @@
+// Cannot use `@utils` because the `seed.ts` file is
+// standalone...
 import { prisma } from "../../utils/prisma_utils"
 
 import { NumberId } from "../../types/id"

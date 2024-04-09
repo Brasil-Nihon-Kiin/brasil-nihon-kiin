@@ -45,6 +45,12 @@
       "@context": [
         "./src/lib/context/exports"
       ],
+      "@hooks/*": [
+        "./src/lib/hooks/*"
+      ],
+      "@hooks": [
+        "./src/lib/hooks/exports"
+      ],
       "@types/*": [
         "./src/lib/types/*"
       ],

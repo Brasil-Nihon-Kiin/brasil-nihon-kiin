@@ -14,6 +14,7 @@ import { findLastElo } from "../src/lib/actions/games/post_game"
 
 async function deleteAll() {
   try {
+    await prisma.article.deleteMany()
     await prisma.game.deleteMany()
     await prisma.user.deleteMany()
 
@@ -38,12 +39,32 @@ async function createUsers() {
           clerkId: "psygo",
           email: "philippe@fanaro.com",
           username: "psygo",
+          firstName: "Philippe",
+          lastName: "Fanaro",
         },
         {
           nanoid: "2",
           clerkId: "renan",
           email: "renan@cruz.com",
           username: "renan",
+          firstName: "Renan",
+          lastName: "Cruz",
+        },
+        {
+          nanoid: "3",
+          clerkId: "riemsdik",
+          email: "felipe@riemsdijk.com",
+          username: "riemsdik",
+          firstName: "Felipe",
+          lastName: "Herman van Riemsdijk",
+        },
+        {
+          nanoid: "4",
+          clerkId: "celso",
+          email: "celso@scaff.com",
+          username: "celso",
+          firstName: "Celso",
+          lastName: "Scaff",
         },
       ],
     })
@@ -128,10 +149,36 @@ async function createGames() {
   }
 }
 
+async function createArticles() {
+  try {
+    await prisma.article.createMany({
+      data: [
+        {
+          nanoid: "1",
+          title: "História da Brasil Nihon Kiin",
+          content: "Era uma vez...",
+          createdAt: new Date(2024, 0, 1),
+          authorId: 3,
+        },
+        {
+          nanoid: "2",
+          createdAt: new Date(2024, 0, 2),
+          title: "O Go, por Jorge Luís Borges",
+          content: "Hoje, nove de setembro de 1978,",
+          authorId: 4,
+        },
+      ],
+    })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 async function seed() {
   await deleteAll()
   await createUsers()
   await createGames()
+  await createArticles()
 }
 
 seed()

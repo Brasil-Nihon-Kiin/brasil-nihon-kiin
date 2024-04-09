@@ -4,7 +4,14 @@ import { authMiddleware } from "@clerk/nextjs"
  * For more, check out [Clerk's Auth Middleware Docs](https://clerk.com/docs/references/nextjs/auth-middleware).
  */
 export default authMiddleware({
-  publicRoutes: ["/", "/api/webhooks/auth"],
+  publicRoutes: [
+    "/",
+    "/artigos",
+    "/calendario",
+    "/entrar",
+    "/api/webhooks/auth",
+    "/api/payment/public-key",
+  ],
   // Prevent the specified routes from accessing
   // authentication information:
   ignoredRoutes: [],

@@ -145,6 +145,7 @@ model Article {
   updatedAt DateTime @default(now())
   //--------------------------------------------------------
   // Data
+  title     String
   content   String
   //--------------------------------------------------------
   // Relationships
