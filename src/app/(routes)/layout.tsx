@@ -1,6 +1,7 @@
 "use client"
 
 import { ClerkProvider } from "@clerk/nextjs"
+import { ptBR } from "@clerk/localizations"
 
 import { Inter } from "next/font/google"
 
@@ -28,7 +29,7 @@ function ThemedAndAuthedApp({ children }: ReactChildren) {
   const { theme } = useColorProvider()
 
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={ptBR}>
       <html data-theme={theme} lang="en">
         <body
           className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
