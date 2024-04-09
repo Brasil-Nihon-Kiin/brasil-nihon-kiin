@@ -1,5 +1,7 @@
 "use client"
 
+import { ClerkProvider } from "@clerk/nextjs"
+
 import { Inter } from "next/font/google"
 
 import "./globals.css"
@@ -17,22 +19,24 @@ export default function RootLayout({
 }: ReactChildren) {
   return (
     <ThemeProvider>
-      <ThemedApp>{children}</ThemedApp>
+      <ThemedAndAuthedApp>{children}</ThemedAndAuthedApp>
     </ThemeProvider>
   )
 }
 
-function ThemedApp({ children }: ReactChildren) {
+function ThemedAndAuthedApp({ children }: ReactChildren) {
   const { theme } = useColorProvider()
 
   return (
-    <html data-theme={theme} lang="en">
-      <body
-        className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
-      >
-        <Topbar />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html data-theme={theme} lang="en">
+        <body
+          className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
+        >
+          <Topbar />
+          <main>{children}</main>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

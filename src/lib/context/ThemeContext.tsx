@@ -19,7 +19,7 @@ const ThemeContext = createContext<ThemeContext | null>(
 )
 
 export function ThemeProvider({ children }: ReactChildren) {
-  const [theme, setTheme] = useState<Theme>(Theme.dark)
+  const [theme, setTheme] = useState<Theme>(Theme.light)
 
   return (
     <ThemeContext.Provider

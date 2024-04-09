@@ -1,9 +1,9 @@
 "use client"
 
+import { setTitle } from "@utils"
+
 export default function Home() {
-  return (
-    <main>
-      <h1>Bem-vindo `a Brasil Nihon Kiin</h1>
-    </main>
-  )
+  setTitle("Página Principal")
+
+  return <h1>Bem-vindo `a Brasil Nihon Kiin</h1>
 }
