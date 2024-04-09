@@ -30,12 +30,12 @@ function ThemedAndAuthedApp({ children }: ReactChildren) {
 
   return (
     <ClerkProvider localization={ptBR}>
-      <html data-theme={theme} lang="en">
+      <html data-theme={theme} lang="pt-BR">
         <body
           className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
         >
           <Topbar />
-          <main className="flex justify-center pt-4">
+          <main className="flex justify-center p-4">
             {children}
           </main>
         </body>

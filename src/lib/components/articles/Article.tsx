@@ -13,28 +13,35 @@ type ArticleProps = {
 
 export function Article({ article }: ArticleProps) {
   return (
-    <article>
-      <h1>{article.title}</h1>
-      <div>{article.content}</div>
+    <article className="prose">
+      <h1 className="mb-0">{article.title}</h1>
+      <ArticleAuthor
+        author={article.author}
+        textColor="text-neutral-800"
+      />
+      <div
+        className="mt-8"
+        dangerouslySetInnerHTML={{
+          __html: article.content,
+        }}
+      ></div>
     </article>
   )
 }
 
 export function ArticleCard({ article }: ArticleProps) {
-  const clippedContent = clipString(article.content)
+console.log(article)
+  const clippedContent = clipString(article.abstract ?? "")
 
   return (
-    <Link href={`/articles/${article.nanoid}`}>
-      <div className="w-full card bg-neutral shadow-xl h-max">
+    <Link href={`/artigos/${article.nanoid}`}>
+      <div className="card bg-neutral shadow-xl h-max">
         <div className="card-body gap-4 px-7 py-6">
           <h2 className="card-title text-neutral-100">
             {article.title}
           </h2>
-          <p className="text-neutral-300 text-xs">
-            {toDate(article.createdAt).toLocaleDateString()}{" "}
-            {toDate(article.createdAt).toLocaleTimeString()}
-          </p>
-          <ArticleAuthorCard author={article.author} />
+          <ArticleDate date={toDate(article.updatedAt)} />
+          <ArticleAuthor author={article.author} />
           <p className="text-neutral-200 text-sm">
             {clippedContent}
           </p>
@@ -44,19 +51,36 @@ export function ArticleCard({ article }: ArticleProps) {
   )
 }
 
-type ArticleAuthorProps = {
-  author: User
+type ArticleDateProps = {
+  date: Date
 }
 
-function ArticleAuthorCard({ author }: ArticleAuthorProps) {
+function ArticleDate({ date }: ArticleDateProps) {
+  return (
+    <p className="text-neutral-300 text-xs">
+      {date.toLocaleDateString()}{" "}
+      {date.toLocaleTimeString()}
+    </p>
+  )
+}
+
+type ArticleAuthorProps = {
+  author: User
+  textColor?: string
+}
+
+function ArticleAuthor({
+  author,
+  textColor = "text-neutral-100",
+}: ArticleAuthorProps) {
   const router = useRouter()
 
   return (
     <div
       className="flex"
-      onClick={() => router.push(`/users/${author.id}`)}
+      onClick={() => router.push(`/usuarios/${author.id}`)}
     >
-      <h3 className=" text-neutral-100">
+      <h3 className={`${textColor}`}>
         {author.firstName} {author.lastName}
       </h3>
     </div>

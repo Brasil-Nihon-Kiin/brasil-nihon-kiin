@@ -160,13 +160,18 @@ async function createArticles() {
           thumbnailLink:
             "https://nihonkiin.com.br/conteudo/principal/historia/Foto-Histo%CC%81rica-Brasil-Nihon-Kiin-small.jpg",
           createdAt: new Date(2024, 0, 1),
+          updatedAt: new Date(2024, 0, 1),
           authorId: 3,
         },
         {
           nanoid: "2",
           createdAt: new Date(2024, 0, 2),
+          updatedAt: new Date(2024, 0, 2),
           title: "O Go, por Jorge Luís Borges",
-          content: "Hoje, nove de setembro de 1978,",
+          abstract:
+            "O famoso poema, do famoso poeta argentino",
+          content:
+            "<p>Hoje, nove de setembro de 1978,</p><p>Tive nas palmas de minha mão um pequeno disco dos trezentos e sessenta e um que se</p>",
           authorId: 4,
         },
       ],

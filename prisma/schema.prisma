@@ -148,7 +148,9 @@ model Article {
   // Data
   title         String
   content       String
+  abstract      String?
   thumbnailLink String?
+  isDraft       Boolean  @default(true)
   //--------------------------------------------------------
   // Relationships
   author        User     @relation(fields: [authorId], references: [id])

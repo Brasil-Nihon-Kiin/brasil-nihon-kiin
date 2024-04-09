@@ -22,5 +22,5 @@ export function toJSON(o: Object) {
 }
 
 export function clipString(s: string) {
-  return s.length <= 140 ? s : s.substring(140)
+  return s.length <= 140 ? s : s.substring(140) + "..."
 }
