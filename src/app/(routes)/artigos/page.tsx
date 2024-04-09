@@ -4,20 +4,21 @@ import { LoadingState } from "@types"
 
 import { useArticles } from "@hooks"
 
-import { ArticlesList } from "@components"
+import { ArticlesList, Progress } from "@components"
 
 export default function ArticlesView() {
   const { articles, loadingState } = useArticles()
 
   if (loadingState === LoadingState.Loading) {
-    return <></>
+    return <Progress />
   }
 
   return (
-    <>
+    <div className="inline-grid grid-cols-1">
+      <h1 className="max-h-max">Artigos</h1>
       {articles ? (
         <ArticlesList articles={articles} />
       ) : null}
-    </>
+    </div>
   )
 }

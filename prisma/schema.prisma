@@ -41,6 +41,7 @@ model User {
   //--------------------------------------------------------
   // Status
   isAdmin            Boolean   @default(false)
+  isWriter           Boolean   @default(false)
   isTeacher          Boolean   @default(false)
   //--------------------------------------------------------
   // Relationships
@@ -139,20 +140,21 @@ model Tournament {
 model Article {
   //--------------------------------------------------------
   // Metadata
-  id        Int      @id @default(autoincrement())
-  nanoid    String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  nanoid        String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
   //--------------------------------------------------------
   // Data
-  title     String
-  content   String
+  title         String
+  content       String
+  thumbnailLink String?
   //--------------------------------------------------------
   // Relationships
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  event     Event?   @relation(fields: [eventId], references: [id])
-  eventId   Int?
+  author        User     @relation(fields: [authorId], references: [id])
+  authorId      Int
+  event         Event?   @relation(fields: [eventId], references: [id])
+  eventId       Int?
   //--------------------------------------------------------
 }
 

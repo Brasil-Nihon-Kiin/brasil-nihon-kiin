@@ -157,6 +157,8 @@ async function createArticles() {
           nanoid: "1",
           title: "História da Brasil Nihon Kiin",
           content: "Era uma vez...",
+          thumbnailLink:
+            "https://nihonkiin.com.br/conteudo/principal/historia/Foto-Histo%CC%81rica-Brasil-Nihon-Kiin-small.jpg",
           createdAt: new Date(2024, 0, 1),
           authorId: 3,
         },

@@ -31,7 +31,7 @@
         "./src/lib/actions/*"
       ],
       "@actions": [
-        "./src/lib/components/exports"
+        "./src/lib/actions/exports"
       ],
       "@components/*": [
         "./src/lib/components/*"
