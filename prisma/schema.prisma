@@ -48,9 +48,9 @@ model User {
   blackGames         Game[]    @relation("blackPlayer")
   whiteGames         Game[]    @relation("whitePlayer")
   wins               Game[]    @relation("winnerPlayer")
-  Article            Article[]
-  Comment            Comment[]
-  Sale               Sale[]
+  articles           Article[]
+  comments           Comment[]
+  purchases          Sale[]
   //--------------------------------------------------------
 }
 
@@ -130,7 +130,7 @@ model Tournament {
   pricing         Json?
   //--------------------------------------------------------
   // Relationships
-  Game            Game[]
+  games           Game[]
   //--------------------------------------------------------
 }
 
@@ -193,8 +193,8 @@ model Event {
   description   String
   //--------------------------------------------------------
   // Relationships
-  CalendarSlots CalendarSlot[]
-  Articles      Article[]
+  calendarSlots CalendarSlot[]
+  articles      Article[]
   //--------------------------------------------------------
 }
 
@@ -235,7 +235,7 @@ model Product {
   isSubscription Boolean  @default(false)
   //--------------------------------------------------------
   // Relationships
-  Sale           Sale[]
+  sales          Sale[]
   //--------------------------------------------------------
 }
 

@@ -10,7 +10,9 @@ export function UserAvatar() {
   const { isSignedIn } = useUser()
 
   return isSignedIn ? (
-    <UserButton afterSignOutUrl="/" />
+    <Link href="editar-perfil">
+      <UserButton afterSignOutUrl="/" />
+    </Link>
   ) : (
     <Link href="/entrar">
       <UserIcon className="h-6 w-6" />
