@@ -48,6 +48,8 @@ export async function POST(req: Request) {
       const data = verifiedPayload.data as UserJSON
       const type = verifiedPayload.type
 
+      console.log("verified")
+
       switch (type) {
         case "user.created":
           await createUser(data)

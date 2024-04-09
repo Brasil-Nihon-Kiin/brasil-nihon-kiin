@@ -1,6 +1,7 @@
 "use client"
 
 import { ClerkProvider } from "@clerk/nextjs"
+import { shadesOfPurple } from "@clerk/themes"
 import { ptBR } from "@clerk/localizations"
 
 import { Inter } from "next/font/google"
@@ -9,7 +10,11 @@ import "./globals.css"
 
 import { ReactChildren } from "@types"
 
-import { ThemeProvider, useColorProvider } from "@context"
+import {
+  Theme,
+  ThemeProvider,
+  useColorProvider,
+} from "@context"
 
 import { Topbar } from "@components"
 
@@ -29,7 +34,13 @@ function ThemedAndAuthedApp({ children }: ReactChildren) {
   const { theme } = useColorProvider()
 
   return (
-    <ClerkProvider localization={ptBR}>
+    <ClerkProvider
+      localization={ptBR}
+      appearance={{
+        baseTheme:
+          theme === Theme.dark ? shadesOfPurple : undefined,
+      }}
+    >
       <html data-theme={theme} lang="pt-BR">
         <body
           className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}

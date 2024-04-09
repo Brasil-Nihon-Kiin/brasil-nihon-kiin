@@ -13,7 +13,7 @@ type ArticleProps = {
 
 export function Article({ article }: ArticleProps) {
   return (
-    <article className="prose">
+    <article className="prose max-w-xl">
       <h1 className="mb-0">{article.title}</h1>
       <ArticleAuthor
         author={article.author}
@@ -30,7 +30,6 @@ export function Article({ article }: ArticleProps) {
 }
 
 export function ArticleCard({ article }: ArticleProps) {
-console.log(article)
   const clippedContent = clipString(article.abstract ?? "")
 
   return (
