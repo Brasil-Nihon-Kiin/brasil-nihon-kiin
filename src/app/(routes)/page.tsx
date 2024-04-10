@@ -6,7 +6,11 @@ import { LoadingState } from "@types"
 
 import { useArticles } from "@hooks"
 
-import { ArticlesList, Progress } from "@components"
+import {
+  ArticlesList,
+  EventsCalendar,
+  Progress,
+} from "@components"
 
 export default function Home() {
   setTitle("Página Principal")
@@ -20,8 +24,9 @@ export default function Home() {
 
   if (articles) {
     return (
-      <div>
+      <div className="h-max flex gap-10">
         <ArticlesList totalCols={1} articles={articles} />
+        <EventsCalendar />
       </div>
     )
   }
