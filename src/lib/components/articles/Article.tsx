@@ -1,4 +1,4 @@
-import { Article, User } from "@prisma/client"
+import { User } from "@prisma/client"
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -13,13 +13,14 @@ type ArticleProps = {
 
 export function Article({ article }: ArticleProps) {
   return (
-    <article className="prose max-w-xl">
+    <article className="prose max-w-xl font-medium">
       <h1 className="mb-0">{article.title}</h1>
       <ArticleAuthor
         author={article.author}
         textColor="text-neutral-800"
       />
       <div
+        id="conteudo-artigo"
         className="mt-8"
         dangerouslySetInnerHTML={{
           __html: article.content,
@@ -94,7 +95,7 @@ export function ArticlesList({
   articles,
 }: ArticlesListProps) {
   return (
-    <section className="flex gap-4">
+    <section className="grid grid-cols-2 gap-4">
       {articles.map((article, i) => {
         return <ArticleCard key={i} article={article} />
       })}

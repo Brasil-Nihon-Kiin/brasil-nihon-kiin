@@ -5,7 +5,7 @@ import { createContext, useContext, useState } from "react"
 import { ReactChildren } from "@types"
 
 export enum Theme {
-  light = "light",
+  light = "retro",
   dark = "dark",
 }
 

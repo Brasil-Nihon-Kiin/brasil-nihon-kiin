@@ -14,8 +14,10 @@ export default function ArticlesView() {
   }
 
   return (
-    <div className="inline-grid grid-cols-1">
-      <h1 className="max-h-max">Artigos</h1>
+    <div className="">
+      <h1 className="ml-7 mb-5 text-xl font-semibold">
+        Artigos
+      </h1>
       {articles ? (
         <ArticlesList articles={articles} />
       ) : null}

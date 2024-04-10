@@ -34,7 +34,7 @@ type PagesNavItemProps = {
 function PagesNavItem({ href, text }: PagesNavItemProps) {
   return (
     <li>
-      <Link href={href} className="text-base">
+      <Link href={href} className="text-base font-semibold">
         {text}
       </Link>
     </li>
@@ -45,9 +45,8 @@ export function Topbar() {
   const { isSignedIn, user } = useUser()
 
   return (
-    <div className="navbar bg-base-100 px-4">
+    <div className="navbar bg-base-300 px-4">
       <Logo />
-
       <div className="flex-none gap-4">
         <PagesNav />
         {isSignedIn ? (

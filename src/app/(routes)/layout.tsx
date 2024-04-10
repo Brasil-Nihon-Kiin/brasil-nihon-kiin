@@ -46,7 +46,7 @@ function ThemedAndAuthedApp({ children }: ReactChildren) {
           className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
         >
           <Topbar />
-          <main className="flex justify-center p-4">
+          <main className="flex justify-center p-4 pt-10">
             {children}
           </main>
         </body>
