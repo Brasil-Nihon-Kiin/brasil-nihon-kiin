@@ -13,7 +13,7 @@ import { ReactChildren } from "@types"
 import {
   Theme,
   ThemeProvider,
-  useColorProvider,
+  useTheme,
 } from "@context"
 
 import { Footer, Topbar } from "@components"
@@ -31,7 +31,7 @@ export default function RootLayout({
 }
 
 function ThemedAndAuthedApp({ children }: ReactChildren) {
-  const { theme } = useColorProvider()
+  const { theme } = useTheme()
 
   return (
     <ClerkProvider

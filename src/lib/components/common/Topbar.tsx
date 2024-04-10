@@ -1,10 +1,19 @@
 "use client"
 
+import { useUser } from "@clerk/nextjs"
+
 import Link from "next/link"
 
+import {
+  Cog6ToothIcon,
+  SunIcon,
+  MoonIcon,
+  RectangleGroupIcon,
+} from "@heroicons/react/24/solid"
+
+import { Theme, useTheme } from "@context"
+
 import { CurrentUserAvatar } from "@components"
-import { Cog6ToothIcon } from "@heroicons/react/24/solid"
-import { useUser } from "@clerk/nextjs"
 
 function Logo() {
   return (
@@ -42,22 +51,48 @@ function PagesNavItem({ href, text }: PagesNavItemProps) {
 }
 
 export function Topbar() {
-  const { isSignedIn, user } = useUser()
-
   return (
     <div className="navbar bg-base-300 px-4">
       <Logo />
       <div className="flex-none gap-4">
         <PagesNav />
-        {isSignedIn ? (
-          <Link
-            href={`/usuarios/${user.publicMetadata.nanoid}`}
-          >
-            <Cog6ToothIcon className="h-6 w-6" />
-          </Link>
-        ) : null}
-        <CurrentUserAvatar />
+        <div className="flex items-center gap-4">
+          <ThemeButton />
+          <SettingsButton />
+          <CurrentUserAvatar />
+        </div>
       </div>
     </div>
+  )
+}
+
+function SettingsButton() {
+  const { isSignedIn, user } = useUser()
+
+  if (isSignedIn)
+    return (
+      <Link
+        href={`/usuarios/${user.publicMetadata.nanoid}`}
+      >
+        <Cog6ToothIcon className="h-6 w-6" />
+      </Link>
+    )
+}
+
+function ThemeButton() {
+  const { cycleTheme, theme } = useTheme()
+
+  return (
+    <button onClick={cycleTheme}>
+      {theme === Theme.light ? (
+        <SunIcon className="h-6 w-6" />
+      ) : null}
+      {theme === Theme.retro ? (
+        <RectangleGroupIcon className="h-6 w-6" />
+      ) : null}
+      {theme === Theme.dark ? (
+        <MoonIcon className="h-5 w-5" />
+      ) : null}
+    </button>
   )
 }
