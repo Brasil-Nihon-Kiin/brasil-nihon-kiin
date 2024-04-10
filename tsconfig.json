@@ -63,6 +63,12 @@
       "@utils": [
         "./src/lib/utils/exports"
       ],
+      "@validation/*": [
+        "./src/lib/validation/*"
+      ],
+      "@validation": [
+        "./src/lib/validation/exports"
+      ],
     }
   },
   "include": [

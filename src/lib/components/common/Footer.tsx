@@ -1,6 +1,7 @@
 import {
   IconDefinition,
   faFacebook,
+  faInstagram,
   faTwitch,
 } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -27,12 +28,16 @@ export function Footer() {
       <nav>
         <div className="grid grid-flow-col gap-4">
           <FooterIconLink
-            href="https://www.twitch.tv/brasilnihonkiin"
-            icon={faTwitch}
-          />
-          <FooterIconLink
             href="https://facebook.com/BrasilNihonKiin"
             icon={faFacebook}
+          />
+          <FooterIconLink
+            href="https://www.instagram.com/nihon_kiin"
+            icon={faInstagram}
+          />
+          <FooterIconLink
+            href="https://www.twitch.tv/brasilnihonkiin"
+            icon={faTwitch}
           />
         </div>
       </nav>
