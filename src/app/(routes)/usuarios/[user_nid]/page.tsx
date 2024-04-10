@@ -1,13 +1,14 @@
 "use client"
 
+import { useUser as useClerkUser } from "@clerk/nextjs"
+
 import { useParams } from "next/navigation"
 
 import { LoadingState } from "@types"
 
-import { useUserWithArticles } from "@hooks"
+import { useUser } from "@hooks"
 
 import { Progress } from "@components"
-import { useUser } from "@clerk/nextjs"
 import { UserForm } from "../../../../lib/components/users/UserForm"
 
 export default function Usuario() {
@@ -15,9 +16,9 @@ export default function Usuario() {
   const userNid = params.user_nid as string
 
   const { userWithArticles, loadingState } =
-    useUserWithArticles(userNid)
+    useUser(userNid)
 
-  const { user } = useUser()
+  const { user: clerkUser } = useClerkUser()
 
   if (loadingState === LoadingState.Loading) {
     return <Progress />
@@ -34,7 +35,7 @@ export default function Usuario() {
 
         <Divider text="Editar Usuário" />
 
-        {user && user.publicMetadata.nanoid ? (
+        {clerkUser && clerkUser.publicMetadata.nanoid ? (
           <UserForm />
         ) : null}
       </div>

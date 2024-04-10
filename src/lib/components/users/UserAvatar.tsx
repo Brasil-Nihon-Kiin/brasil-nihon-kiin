@@ -1,4 +1,7 @@
-import { UserButton, useUser } from "@clerk/nextjs"
+import {
+  UserButton,
+  useUser as useClerkUser,
+} from "@clerk/nextjs"
 
 import { User } from "@prisma/client"
 
@@ -10,7 +13,7 @@ import "@utils/string"
 import { UserIcon } from "@heroicons/react/24/solid"
 
 export function CurrentUserAvatar() {
-  const { isSignedIn } = useUser()
+  const { isSignedIn } = useClerkUser()
 
   return isSignedIn ? (
     <Link href="editar-perfil">

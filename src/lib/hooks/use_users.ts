@@ -3,10 +3,13 @@
 import { useEffect, useState } from "react"
 
 import { LoadingState, Nid, UserWithArticles } from "@types"
-import { getUser } from "../actions/users/get_users"
 
+import { getUser } from "@actions"
 
-export function useUserWithArticles(nid: Nid) {
+export function useUser(
+  nid: Nid,
+  includeArticles: boolean = true
+) {
   const [loadingState, setLoadingState] = useState(
     LoadingState.NotYet
   )
@@ -18,7 +21,7 @@ export function useUserWithArticles(nid: Nid) {
     async function getUserData() {
       setLoadingState(LoadingState.Loading)
 
-      const userData = await getUser(nid, true)
+      const userData = await getUser(nid, includeArticles)
 
       if (userData) setUserWithArticles(userData)
 
@@ -26,7 +29,7 @@ export function useUserWithArticles(nid: Nid) {
     }
 
     getUserData()
-  }, [nid])
+  }, [nid, includeArticles])
 
   return { loadingState, userWithArticles }
 }

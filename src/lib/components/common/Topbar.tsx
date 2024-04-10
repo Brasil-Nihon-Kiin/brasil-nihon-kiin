@@ -1,6 +1,6 @@
 "use client"
 
-import { useUser } from "@clerk/nextjs"
+import { useUser as useClerkUser } from "@clerk/nextjs"
 
 import Link from "next/link"
 
@@ -67,12 +67,12 @@ export function Topbar() {
 }
 
 function SettingsButton() {
-  const { isSignedIn, user } = useUser()
+  const { isSignedIn, user: clerkUser } = useClerkUser()
 
   if (isSignedIn)
     return (
       <Link
-        href={`/usuarios/${user.publicMetadata.nanoid}`}
+        href={`/usuarios/${clerkUser.publicMetadata.nanoid}`}
       >
         <Cog6ToothIcon className="h-6 w-6" />
       </Link>
