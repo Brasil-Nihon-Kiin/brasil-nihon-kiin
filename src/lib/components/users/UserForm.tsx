@@ -17,7 +17,7 @@ import {
 } from "@validation"
 
 import { Divider } from "../common/Divider"
-import { PlusIcon } from "@heroicons/react/24/solid"
+import { TextArea, TextField } from "../common/TextField"
 
 export function UserForm() {
   const params = useParams()
@@ -53,55 +53,29 @@ export function UserForm() {
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-2 gap-3 justify-items-end w-full"
         >
-          {/* 1. Nome */}
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text">Nome</span>
-            </div>
-            <input
-              {...register("firstName")}
-              placeholder="João"
-              className="input input-bordered w-full max-w-xs"
-            />
-            {errors.firstName && (
-              <p className="text-red-500">{`${errors.firstName.message}`}</p>
-            )}
-          </label>
-
-          {/* 2. Sobrenome */}
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text">Sobrenome</span>
-            </div>
-            <input
-              {...register("lastName")}
-              placeholder="Silva"
-              className="input input-bordered w-full max-w-xs"
-            />
-            {errors.lastName && (
-              <p className="text-red-500">{`${errors.lastName.message}`}</p>
-            )}
-          </label>
-
-          {/* Descrição */}
-          <label className="form-control w-full max-w-xs col-span-2">
-            <div className="label w-full">
-              <span className="label-text">Descrição</span>
-            </div>
-            <textarea
-              {...register("description")}
-              className="textarea textarea-bordered h-24 w-full"
-              placeholder="Comecei no Go através de..."
-            ></textarea>
-            {errors.description && (
-              <p className="text-red-500">{`${errors.description.message}`}</p>
-            )}
-          </label>
+          <TextField
+            errors={errors}
+            register={register}
+            field="firstName"
+            label="Nome"
+          />
+          <TextField
+            errors={errors}
+            register={register}
+            field="lastName"
+            label="Sobrenome"
+          />
+          <TextArea
+            errors={errors}
+            register={register}
+            field="description"
+            label="Descrição"
+          />
 
           <button
             disabled={isSubmitting}
             type="submit"
-            className="btn btn-neutral w-max col-span-2"
+            className="btn btn-neutral w-max col-span-2 mt-2"
           >
             Salvar
           </button>
