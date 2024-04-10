@@ -6,10 +6,11 @@ import { prisma, toJSON } from "@utils"
 
 import { Nid } from "@types"
 
-export async function getArticles() {
+export async function getArticles(totalArticles?: number) {
   try {
     const articles = await prisma.article.findMany({
       orderBy: { updatedAt: "desc" },
+      take: totalArticles,
       include: { author: true },
     })
 
@@ -26,7 +27,7 @@ export async function getArticle(nid: Nid) {
       include: { author: true },
     })
 
-    return toJSON(article) 
+    return toJSON(article)
   } catch (e) {
     console.error(e)
   }

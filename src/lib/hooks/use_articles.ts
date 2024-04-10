@@ -10,7 +10,7 @@ import {
 
 import { getArticle, getArticles } from "@actions"
 
-export function useArticles() {
+export function useArticles(totalArticles?: number) {
   const [loadingState, setLoadingState] = useState(
     LoadingState.NotYet
   )
@@ -23,7 +23,7 @@ export function useArticles() {
     async function getArticlesData() {
       setLoadingState(LoadingState.Loading)
 
-      const articlesData = await getArticles()
+      const articlesData = await getArticles(totalArticles)
 
       if (articlesData) setArticles(articlesData)
 
@@ -31,7 +31,7 @@ export function useArticles() {
     }
 
     getArticlesData()
-  }, [])
+  }, [totalArticles])
 
   return { loadingState, articles }
 }

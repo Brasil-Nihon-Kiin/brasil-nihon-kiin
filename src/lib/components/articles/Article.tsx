@@ -89,13 +89,17 @@ function ArticleAuthor({
 
 type ArticlesListProps = {
   articles: ArticleWithCreator[]
+  totalCols?: number
 }
 
 export function ArticlesList({
   articles,
+  totalCols = 2,
 }: ArticlesListProps) {
   return (
-    <section className="grid grid-cols-2 gap-4">
+    <section
+      className={`grid grid-cols-${totalCols} gap-4`}
+    >
       {articles.map((article, i) => {
         return <ArticleCard key={i} article={article} />
       })}

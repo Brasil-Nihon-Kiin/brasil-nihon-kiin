@@ -2,8 +2,27 @@
 
 import { setTitle } from "@utils"
 
+import { LoadingState } from "@types"
+
+import { useArticles } from "@hooks"
+
+import { ArticlesList, Progress } from "@components"
+
 export default function Home() {
   setTitle("Página Principal")
 
-  return <h1>Bem-vindo `a Brasil Nihon Kiin</h1>
+  const { articles, loadingState: loadingArticles } =
+    useArticles()
+
+  if (loadingArticles === LoadingState.Loading) {
+    return <Progress />
+  }
+
+  if (articles) {
+    return (
+      <div>
+        <ArticlesList totalCols={1} articles={articles} />
+      </div>
+    )
+  }
 }
