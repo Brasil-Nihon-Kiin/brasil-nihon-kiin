@@ -1,56 +1,37 @@
 "use client"
 
-import { useUser as useClerkUser } from "@clerk/nextjs"
-
 import { useParams } from "next/navigation"
 
 import { LoadingState } from "@types"
 
 import { useUser } from "@hooks"
 
-import { Progress } from "@components"
-import { UserForm } from "../../../../lib/components/users/UserForm"
+import { UserFormProvider } from "@context"
+
+import {
+  Progress,
+  UserForm,
+  UserProfile,
+} from "@components"
 
 export default function Usuario() {
   const params = useParams()
   const userNid = params.user_nid as string
 
-  const { userWithArticles, loadingState } =
-    useUser(userNid)
-
-  const { user: clerkUser } = useClerkUser()
+  const { user, loadingState } = useUser(userNid, false)
 
   if (loadingState === LoadingState.Loading) {
     return <Progress />
   }
 
-  if (userWithArticles) {
+  if (user) {
     return (
-      <div className="grid grid-cols-1 w-5/6">
-        <h1>
-          {userWithArticles.firstName}{" "}
-          {userWithArticles.lastName} @
-          {userWithArticles.username}
-        </h1>
-
-        <Divider text="Editar Usuário" />
-
-        {clerkUser && clerkUser.publicMetadata.nanoid ? (
+      <UserFormProvider initialUser={user}>
+        <div className="grid grid-cols-1 w-5/6">
+          <UserProfile />
           <UserForm />
-        ) : null}
-      </div>
+        </div>
+      </UserFormProvider>
     )
   }
-}
-
-type DividerProps = {
-  text: string
-}
-
-export function Divider({ text }: DividerProps) {
-  return (
-    <div className="divider font-medium text-xl">
-      {text}
-    </div>
-  )
 }

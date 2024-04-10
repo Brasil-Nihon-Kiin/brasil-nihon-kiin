@@ -14,8 +14,7 @@ export function useUser(
     LoadingState.NotYet
   )
 
-  const [userWithArticles, setUserWithArticles] =
-    useState<UserWithArticles>()
+  const [user, setUser] = useState<UserWithArticles>()
 
   useEffect(() => {
     async function getUserData() {
@@ -23,7 +22,7 @@ export function useUser(
 
       const userData = await getUser(nid, includeArticles)
 
-      if (userData) setUserWithArticles(userData)
+      if (userData) setUser(userData)
 
       setLoadingState(LoadingState.Loaded)
     }
@@ -31,5 +30,5 @@ export function useUser(
     getUserData()
   }, [nid, includeArticles])
 
-  return { loadingState, userWithArticles }
+  return { loadingState, user }
 }
