@@ -29,8 +29,11 @@ model User {
   citiesOfOrigin     String[]
   countryOfResidence String?
   stateOfResidence   String?
-  citiesOfResidence  String?
+  cityOfResidence    String?
   socialsLinks       Json?
+  kgsUsername        String?
+  ogsUsername        String?
+  foxUsername        String?
   socialsUsers       Json?
   age                Int?
   imageLink          String?
@@ -43,6 +46,7 @@ model User {
   isAdmin            Boolean   @default(false)
   isWriter           Boolean   @default(false)
   isTeacher          Boolean   @default(false)
+  isPrivate          Boolean   @default(false)
   //--------------------------------------------------------
   // Relationships
   blackGames         Game[]    @relation("blackPlayer")
