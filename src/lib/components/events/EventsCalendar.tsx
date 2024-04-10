@@ -19,7 +19,7 @@ export function EventsCalendar() {
   }
 
   return (
-    <div className="max-h-[360px] p-4 border-4 border-gray-700 rounded-xl">
+    <div className="card max-h-max p-4 bg-base-300 shadow-xl">
       <FullCalendar
         locale={ptLocale}
         plugins={[dayGridPlugin]}

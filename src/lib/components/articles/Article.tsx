@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { clipString, toDate } from "@utils"
 
 import { ArticleWithCreator } from "@types"
+import { UserAvatar } from "../exports"
 
 type ArticleProps = {
   article: ArticleWithCreator
@@ -58,8 +59,8 @@ type ArticleDateProps = {
 function ArticleDate({ date }: ArticleDateProps) {
   return (
     <p className="text-neutral-300 text-xs">
-      {date.toLocaleDateString()}{" "}
-      {date.toLocaleTimeString()}
+      {date.toLocaleDateString("pt-BR")}{" "}
+      {date.toLocaleTimeString("pt-BR")}
     </p>
   )
 }
@@ -77,9 +78,10 @@ function ArticleAuthor({
 
   return (
     <div
-      className="flex"
+      className="flex gap-2 items-center"
       onClick={() => router.push(`/usuarios/${author.id}`)}
     >
+      <UserAvatar user={author} />
       <h3 className={`${textColor}`}>
         {author.firstName} {author.lastName}
       </h3>

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 
-import { UserAvatar } from "@components"
+import { CurrentUserAvatar } from "@components"
 import { Cog6ToothIcon } from "@heroicons/react/24/solid"
 import { useUser } from "@clerk/nextjs"
 
@@ -56,7 +56,7 @@ export function Topbar() {
             <Cog6ToothIcon className="h-6 w-6" />
           </Link>
         ) : null}
-        <UserAvatar />
+        <CurrentUserAvatar />
       </div>
     </div>
   )
