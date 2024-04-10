@@ -85,10 +85,10 @@ function ThemeButton() {
   return (
     <button onClick={cycleTheme}>
       {theme === Theme.light ? (
-        <SunIcon className="h-6 w-6" />
+        <RectangleGroupIcon className="h-6 w-6" />
       ) : null}
       {theme === Theme.retro ? (
-        <RectangleGroupIcon className="h-6 w-6" />
+        <SunIcon className="h-6 w-6" />
       ) : null}
       {theme === Theme.dark ? (
         <MoonIcon className="h-5 w-5" />

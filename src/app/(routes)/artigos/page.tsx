@@ -14,7 +14,7 @@ export default function ArticlesView() {
   }
 
   return (
-    <div className="">
+    <div>
       <h1 className="ml-7 mb-5 text-xl font-semibold">
         Artigos
       </h1>

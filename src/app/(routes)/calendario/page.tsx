@@ -1,7 +1,18 @@
+"use client"
+
 import { setTitle } from "@utils"
+
+import {
+  EventsCalendar,
+  EventsCalendarView,
+} from "@components"
 
 export default function Calendario() {
   setTitle("Calendário")
 
-  return <></>
+  return (
+    <EventsCalendar
+      initialView={EventsCalendarView.timeWeek}
+    />
+  )
 }

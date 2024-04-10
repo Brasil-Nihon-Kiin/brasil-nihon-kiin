@@ -24,7 +24,7 @@ export default function Home() {
 
   if (articles) {
     return (
-      <div className="h-max flex gap-6">
+      <div className="flex gap-6">
         <ArticlesList totalCols={1} articles={articles} />
         <EventsCalendar />
       </div>

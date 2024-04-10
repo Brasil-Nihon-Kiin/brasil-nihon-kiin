@@ -1,14 +1,27 @@
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
+import timeGridPlugin from "@fullcalendar/timegrid"
 import { EventContentArg } from "@fullcalendar/core"
 import ptLocale from "@fullcalendar/core/locales/pt-br"
 
 import { Tooltip } from "react-tippy"
-import { title } from "process"
 
 const events = [{ title: "Meeting", start: new Date() }]
 
-export function EventsCalendar() {
+export enum EventsCalendarView {
+  dayMonth = "dayGridMonth",
+  timeWeek = "timeGridWeek",
+}
+
+type EventsCalendarProps = {
+  initialView?: EventsCalendarView
+  width?: string
+}
+
+export function EventsCalendar({
+  initialView = EventsCalendarView.dayMonth,
+  width = "1/2",
+}: EventsCalendarProps) {
   function renderEventContent(eventInfo: EventContentArg) {
     return (
       <>
@@ -19,12 +32,15 @@ export function EventsCalendar() {
   }
 
   return (
-    <div className="card max-h-max p-4 bg-base-300 shadow-xl">
+    <div
+      className={`card w-${width} h-[800px] p-4 bg-base-300 shadow-xl`}
+    >
       <FullCalendar
         locale={ptLocale}
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
-        weekends={false}
+        height="100%"
+        plugins={[dayGridPlugin, timeGridPlugin]}
+        initialView={initialView}
+        weekends={true}
         events={events}
         eventDidMount={(info) => {
           return new Tooltip({ title: "here" })

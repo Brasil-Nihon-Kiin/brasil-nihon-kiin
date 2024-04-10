@@ -100,7 +100,7 @@ export function ArticlesList({
 }: ArticlesListProps) {
   return (
     <section
-      className={`grid grid-cols-${totalCols} gap-4`}
+      className={`h-max grid grid-cols-${totalCols} gap-4`}
     >
       {articles.map((article, i) => {
         return <ArticleCard key={i} article={article} />
