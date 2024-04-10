@@ -16,7 +16,7 @@ import {
   useColorProvider,
 } from "@context"
 
-import { Topbar } from "@components"
+import { Footer, Topbar } from "@components"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -46,9 +46,10 @@ function ThemedAndAuthedApp({ children }: ReactChildren) {
           className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
         >
           <Topbar />
-          <main className="flex justify-center p-4 pt-10">
+          <main className="flex min-h-[100vh] mb-20 justify-center p-4 pt-10">
             {children}
           </main>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
