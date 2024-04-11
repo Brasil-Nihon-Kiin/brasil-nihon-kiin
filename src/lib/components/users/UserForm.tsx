@@ -1,7 +1,5 @@
 import { useParams } from "next/navigation"
 
-import useCountries from "use-countries"
-
 import { useUser as useClerkUser } from "@clerk/nextjs"
 
 import { useForm } from "react-hook-form"
@@ -16,8 +14,12 @@ import {
   userFormSchema,
 } from "@validation"
 
-import { Divider } from "../common/Divider"
-import { TextArea, TextField } from "../common/TextField"
+import {
+  Divider,
+  MultiSelect,
+  TextArea,
+  TextField,
+} from "../common/exports"
 
 export function UserForm() {
   const params = useParams()
@@ -25,8 +27,6 @@ export function UserForm() {
 
   const { user: clerkUser } = useClerkUser()
   const { user, setUser } = useUserForm()
-
-  const { languages, countries } = useCountries()
 
   const {
     register,
@@ -71,6 +71,8 @@ export function UserForm() {
             field="description"
             label="Descrição"
           />
+
+          <MultiSelect />
 
           <button
             disabled={isSubmitting}
