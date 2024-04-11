@@ -5,6 +5,8 @@ import { useUser as useClerkUser } from "@clerk/nextjs"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import { mostPopularLanguagesInPortuguese } from "@utils"
+
 import { updateUser } from "@actions"
 
 import { useUserForm } from "@context"
@@ -72,7 +74,11 @@ export function UserForm() {
             label="Descrição"
           />
 
-          <MultiSelect />
+          <MultiSelect
+            label="Línguas"
+            placeHolder="Escolha uma ou mais línguas"
+            options={mostPopularLanguagesInPortuguese}
+          />
 
           <button
             disabled={isSubmitting}

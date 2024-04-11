@@ -928,7 +928,7 @@ export const mostImportantCountriesListInPortuguese = [
   },
 ].sort((a, b) => a.name.localeCompare(b.name))
 
-export const countriesList = [
+export const countriesListInEnglish = [
   {
     code: "AD",
     name: "Andorra",
