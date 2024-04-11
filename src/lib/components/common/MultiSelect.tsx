@@ -68,19 +68,18 @@ export function MultiSelect({
           })}
         </div>
         <div className="grid grid-cols-1 justify-start gap-2 max-h-[200px] w-52 mt-1 overflow-y-auto p-2 shadow menu dropdown-content z-[1] bg-base-200 rounded-box">
-          {options.map((l, i) => {
-            return (
-              <div key={i} className="flex gap-2">
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  data-value={l}
-                  onClick={handleToggle}
-                />
-                <p>{l}</p>
-              </div>
-            )
-          })}
+          {options.map((option, i) => (
+            <div key={i} className="flex gap-2">
+              <input
+                type="checkbox"
+                defaultChecked={selected.includes(option)}
+                className="checkbox"
+                data-value={option}
+                onClick={handleToggle}
+              />
+              <p>{option}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

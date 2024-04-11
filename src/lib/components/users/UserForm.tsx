@@ -5,7 +5,10 @@ import { useUser as useClerkUser } from "@clerk/nextjs"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { mostPopularLanguagesInPortuguese } from "@utils"
+import {
+  mostImportantCountriesListInPortuguese,
+  mostPopularLanguagesInPortuguese,
+} from "@utils"
 
 import { updateUser } from "@actions"
 
@@ -84,6 +87,27 @@ export function UserForm() {
             initialSelection={user.languages}
             onChangeHook={(selected) => {
               setValue("languages", [...selected])
+            }}
+          />
+
+          <MultiSelect
+            label="País(es) de Origem"
+            placeHolder="Escolha um ou mais países"
+            options={mostImportantCountriesListInPortuguese.map(
+              (c) => `${c.emoji} ${c.name}`
+            )}
+            initialSelection={mostImportantCountriesListInPortuguese
+              .filter((c) =>
+                user.countriesOfOrigin.includes(c.name)
+              )
+              .map((c) => `${c.emoji} ${c.name}`)}
+            onChangeHook={(selected) => {
+              setValue(
+                "countriesOfOrigin",
+                [...selected].map((s) =>
+                  s.split(" ").slice(1).join(" ")
+                )
+              )
             }}
           />
 
