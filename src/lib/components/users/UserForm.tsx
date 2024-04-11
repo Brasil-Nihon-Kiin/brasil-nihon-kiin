@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import {
+  brStates,
   mostImportantCountriesListInPortuguese,
   mostPopularLanguagesInPortuguese,
 } from "@utils"
@@ -22,6 +23,7 @@ import {
 import {
   Divider,
   MultiSelect,
+  Select,
   TextArea,
   TextField,
 } from "../common/exports"
@@ -82,7 +84,7 @@ export function UserForm() {
 
           <MultiSelect
             label="Línguas"
-            placeHolder="Escolha uma ou mais línguas"
+            placeholder="Escolha uma ou mais línguas"
             options={mostPopularLanguagesInPortuguese}
             initialSelection={user.languages}
             onChangeHook={(selected) => {
@@ -92,22 +94,32 @@ export function UserForm() {
 
           <MultiSelect
             label="País(es) de Origem"
-            placeHolder="Escolha um ou mais países"
+            placeholder="Escolha um ou mais países"
             options={mostImportantCountriesListInPortuguese.map(
               (c) => `${c.emoji} ${c.name}`
             )}
             initialSelection={mostImportantCountriesListInPortuguese
               .filter((c) =>
-                user.countriesOfOrigin.includes(c.name)
+                user.nationalities.includes(c.name)
               )
               .map((c) => `${c.emoji} ${c.name}`)}
             onChangeHook={(selected) => {
               setValue(
-                "countriesOfOrigin",
+                "nationalities",
                 [...selected].map((s) =>
                   s.split(" ").slice(1).join(" ")
                 )
               )
+            }}
+          />
+
+          <Select
+            label="Estado Brasileiro de Origem"
+            placeholder="Escolha um estado brasileiro"
+            options={brStates.map((s) => s.name)}
+            initialSelection={user.brStateOfOrigin}
+            onChangeHook={(selected) => {
+              setValue("brStateOfOrigin", selected)
             }}
           />
 

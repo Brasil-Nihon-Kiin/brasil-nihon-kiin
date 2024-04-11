@@ -9,11 +9,12 @@ export const userFormSchema = z.object({
     .optional()
     .nullish()
     .transform((langs) => langs ?? []),
-  countriesOfOrigin: z
+  nationalities: z
     .array(z.string())
     .optional()
     .nullish()
     .transform((countries) => countries ?? []),
+  brStateOfOrigin: z.string().optional().nullish(),
 })
 
 export type UserFormValidation = z.infer<

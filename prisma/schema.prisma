@@ -24,16 +24,13 @@ model User {
   lastName           String?
   description        String?
   languages          String[]
-  countriesOfOrigin  String[]
-  statesOfOrigin     String[]
-  citiesOfOrigin     String[]
+  nationalities      String[]
+  brStateOfOrigin    String?
+  citieOfOrigin      String?
   countryOfResidence String?
   stateOfResidence   String?
   cityOfResidence    String?
   socialsLinks       Json?
-  kgsUsername        String?
-  ogsUsername        String?
-  foxUsername        String?
   socialsUsers       Json?
   age                Int?
   imageLink          String?

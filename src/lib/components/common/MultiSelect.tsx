@@ -4,7 +4,7 @@ import { Theme, useTheme } from "@context"
 
 type MultiSelectProps = {
   label: string
-  placeHolder: string
+  placeholder: string
   options: string[]
   initialSelection?: string[]
   onChangeHook: (selected: Set<string>) => void
@@ -12,7 +12,7 @@ type MultiSelectProps = {
 
 export function MultiSelect({
   label,
-  placeHolder,
+  placeholder,
   options,
   initialSelection,
   onChangeHook,
@@ -62,7 +62,7 @@ export function MultiSelect({
         >
           {!hasSelection() ? (
             <p className="text-neutral-400">
-              {placeHolder}
+              {placeholder}
             </p>
           ) : (
             ""
