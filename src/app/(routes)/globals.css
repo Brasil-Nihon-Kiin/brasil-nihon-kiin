@@ -6,3 +6,15 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.multiselect-retro {
+  border-color: #c4bda9;
+}
+
+.multiselect-light {
+  border-color: #d3d4d7;
+}
+
+.multiselect-dark {
+  border-color: #383f47;
+}

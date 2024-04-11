@@ -1,5 +1,7 @@
 import { useState } from "react"
 
+import { Theme, useTheme } from "@context"
+
 type MultiSelectProps = {
   label: string
   placeHolder: string
@@ -38,6 +40,15 @@ export function MultiSelect({
     return selected.length !== 0
   }
 
+  const { theme } = useTheme()
+  const multiSelectClass =
+    theme === Theme.dark
+      ? "multiselect-dark"
+      : theme === Theme.retro
+      ? "multiselect-retro"
+      : "multiselect-light"
+  const buttonClass = `${multiSelectClass} shadow-none btn h-max p-2 px-3 w-full justify-start font-normal bg-base-100 `
+
   return (
     <div className="w-full">
       <div className="label">
@@ -47,7 +58,7 @@ export function MultiSelect({
         <div
           tabIndex={0}
           role="button"
-          className={`btn h-max p-2 px-3 w-full justify-start font-normal bg-base-100`}
+          className={buttonClass}
         >
           {!hasSelection() ? (
             <p className="text-neutral-400">
