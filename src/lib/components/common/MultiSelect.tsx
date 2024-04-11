@@ -4,14 +4,20 @@ type MultiSelectProps = {
   label: string
   placeHolder: string
   options: string[]
+  initialSelection?: string[]
+  onChangeHook: (selected: Set<string>) => void
 }
 
 export function MultiSelect({
   label,
   placeHolder,
   options,
+  initialSelection,
+  onChangeHook,
 }: MultiSelectProps) {
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState<string[]>(
+    initialSelection ?? []
+  )
 
   function handleToggle(
     e: React.MouseEvent<HTMLInputElement>
@@ -20,12 +26,12 @@ export function MultiSelect({
       .value!
     const selectedSet = new Set(selected)
 
-    if (selectedSet.has(clicked)) {
-      selectedSet.delete(clicked)
-      setSelected([...selectedSet])
-    } else {
-      setSelected([...selected, clicked])
-    }
+    selectedSet.has(clicked)
+      ? selectedSet.delete(clicked)
+      : selectedSet.add(clicked)
+
+    onChangeHook(selectedSet)
+    setSelected([...selectedSet])
   }
 
   function hasSelection() {

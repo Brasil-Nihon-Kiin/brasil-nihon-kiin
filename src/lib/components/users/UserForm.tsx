@@ -33,6 +33,7 @@ export function UserForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<UserFormValidation>({
     resolver: zodResolver(userFormSchema),
@@ -40,6 +41,8 @@ export function UserForm() {
   })
 
   async function onSubmit(newData: UserFormValidation) {
+    console.log(newData)
+
     const updatedUser = await updateUser(userNid, newData)
     if (updatedUser) setUser(updatedUser)
   }
@@ -78,6 +81,10 @@ export function UserForm() {
             label="Línguas"
             placeHolder="Escolha uma ou mais línguas"
             options={mostPopularLanguagesInPortuguese}
+            initialSelection={user.languages}
+            onChangeHook={(selected) => {
+              setValue("languages", [...selected])
+            }}
           />
 
           <button
