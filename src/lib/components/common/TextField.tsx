@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import {
   FieldErrors,
   FieldValues,
@@ -68,13 +69,18 @@ export function TextField<T extends FieldValues>({
   )
 }
 
+type DateFieldProps<T extends FieldValues> = Omit<
+  TextFieldProps<T>,
+  "placeholder"
+>
+
 export function DateField<T extends FieldValues>({
   errors,
   register,
   field,
   label,
   colSpan,
-}: Omit<TextFieldProps<T>, "placeholder">) {
+}: DateFieldProps<T>) {
   return (
     <label
       className={`form-control w-full col-span-${colSpan}`}

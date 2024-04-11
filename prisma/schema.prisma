@@ -23,7 +23,7 @@ model User {
   firstName          String?
   lastName           String?
   description        String?
-  dateOfBirth        DateTime?
+  dateOfBirth        String?
   languages          String[]
   nationalities      String[]
   brStateOfOrigin    String?

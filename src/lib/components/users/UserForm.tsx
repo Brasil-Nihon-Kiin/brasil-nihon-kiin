@@ -85,6 +85,7 @@ export function UserForm() {
             field="dateOfBirth"
             label="Data de Nascimento"
           />
+
           <TextArea<UserFormValidation>
             errors={errors}
             register={register}

@@ -3,12 +3,16 @@ import { z } from "zod"
 export const userFormSchema = z.object({
   firstName: z.string().optional().nullish(),
   lastName: z.string().optional().nullish(),
+  dateOfBirth: z.string().optional().nullish(),
+
   description: z.string().optional().nullish(),
+
   languages: z
     .array(z.string())
     .optional()
     .nullish()
     .transform((langs) => langs ?? []),
+
   nationalities: z
     .array(z.string())
     .optional()
@@ -16,6 +20,7 @@ export const userFormSchema = z.object({
     .transform((countries) => countries ?? []),
   brStateOfOrigin: z.string().optional().nullish(),
   ciyOfOrigin: z.string().optional().nullish(),
+
   countryOfResidence: z.string().optional().nullish(),
   cityOfResidence: z.string().optional().nullish(),
   brStateOfResidence: z.string().optional().nullish(),
