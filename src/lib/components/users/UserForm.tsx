@@ -22,6 +22,7 @@ import {
 } from "@validation"
 
 import {
+  DateField,
   Divider,
   MultiSelect,
   Select,
@@ -62,7 +63,7 @@ export function UserForm() {
         <Divider text="Editar Usuário" />
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-3 justify-items-end w-full"
+          className="grid grid-cols-3 gap-3 justify-items-end w-full"
         >
           <TextField
             errors={errors}
@@ -78,6 +79,12 @@ export function UserForm() {
             label="Sobrenome"
             placeholder="Silva"
           />
+          <DateField
+            errors={errors}
+            register={register}
+            field="dateOfBirth"
+            label="Data de Nascimento"
+          />
           <TextArea
             errors={errors}
             register={register}
@@ -89,6 +96,7 @@ export function UserForm() {
           <MultiSelect
             label="Línguas"
             placeholder="Escolha uma ou mais línguas"
+            colSpan={"full"}
             options={mostPopularLanguagesInPortuguese}
             initialSelection={user.languages}
             onChangeHook={(selected) => {
@@ -118,8 +126,8 @@ export function UserForm() {
           />
 
           <Select
-            label="Estado Brasileiro de Origem"
-            placeholder="Escolha um estado brasileiro"
+            label="Estado de Origem"
+            placeholder="Escolha um estado"
             options={brStates.map((s) => s.name)}
             initialSelection={user.brStateOfOrigin}
             onChangeHook={(selected) => {
@@ -155,6 +163,26 @@ export function UserForm() {
               )
             }}
           />
+
+          <Select
+            label="Estado de Residência"
+            placeholder="Escolha um estado"
+            options={brStates.map((s) => s.name)}
+            initialSelection={user.brStateOfOrigin}
+            onChangeHook={(selected) => {
+              setValue("brStateOfResidence", selected)
+            }}
+          />
+
+          <TextField
+            errors={errors}
+            register={register}
+            field="cityOfResidence"
+            label="Cidade de Residência"
+            placeholder="São Paulo"
+          />
+
+          <div></div>
 
           <button
             disabled={isSubmitting}

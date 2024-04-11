@@ -12,7 +12,7 @@ export function UserProfile() {
       {user.languages.map((l, i) => (
         <p key={i}>{l}</p>
       ))}
-      <p>{user.countryOfResidence}</p>
+      <p>{user.cityOfResidence}</p>
     </>
   )
 }

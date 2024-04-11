@@ -23,16 +23,16 @@ model User {
   firstName          String?
   lastName           String?
   description        String?
+  dateOfBirth        DateTime?
   languages          String[]
   nationalities      String[]
   brStateOfOrigin    String?
   cityOfOrigin       String?
   countryOfResidence String?
-  stateOfResidence   String?
+  brStateOfResidence String?
   cityOfResidence    String?
   socialsLinks       Json?
   socialsUsers       Json?
-  age                Int?
   imageLink          String?
   ratePerHour        Decimal?
   //--------------------------------------------------------

@@ -11,6 +11,7 @@ type TextFieldProps<T extends FieldValues> = {
   field: string
   label: string
   placeholder: string
+  colSpan?: number | string
 }
 
 export function TextArea<T extends FieldValues>({
@@ -19,9 +20,12 @@ export function TextArea<T extends FieldValues>({
   field,
   label,
   placeholder,
+  colSpan = "full",
 }: TextFieldProps<T>) {
   return (
-    <label className="form-control w-full col-span-2">
+    <label
+      className={`form-control w-full col-span-${colSpan}`}
+    >
       <div className="label w-full">
         <span className="label-text">{label}</span>
       </div>
@@ -43,15 +47,44 @@ export function TextField<T extends FieldValues>({
   field,
   label,
   placeholder,
+  colSpan = 1,
 }: TextFieldProps<T>) {
   return (
-    <label className="form-control w-full max-w-xs">
+    <label
+      className={`form-control w-full col-span-${colSpan}`}
+    >
       <div className="label">
         <span className="label-text">{label}</span>
       </div>
       <input
         {...register(field as Path<T>)}
         placeholder={placeholder}
+        className="input input-bordered text-sm w-full max-w-xs"
+      />
+      {errors.lastName && (
+        <p className="text-red-500">{`${errors.lastName.message}`}</p>
+      )}
+    </label>
+  )
+}
+
+export function DateField<T extends FieldValues>({
+  errors,
+  register,
+  field,
+  label,
+  colSpan,
+}: Omit<TextFieldProps<T>, "placeholder">) {
+  return (
+    <label
+      className={`form-control w-full col-span-${colSpan}`}
+    >
+      <div className="label">
+        <span className="label-text">{label}</span>
+      </div>
+      <input
+        {...register(field as Path<T>)}
+        type="date"
         className="input input-bordered text-sm w-full max-w-xs"
       />
       {errors.lastName && (

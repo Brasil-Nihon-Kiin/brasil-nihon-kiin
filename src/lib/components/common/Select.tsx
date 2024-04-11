@@ -24,10 +24,10 @@ export function Select({
           const selected = options[target.selectedIndex - 1]
           onChangeHook(selected)
         }}
-        className="select select-bordered w-full max-w-xs"
+        className="select select-bordered w-full"
         defaultValue={initialSelection ?? placeholder}
       >
-        <option disabled>{placeholder}</option>
+        <option className="text-neutral-100" disabled>{placeholder}</option>
         {options.map((option, i) => (
           <option key={i} value={option}>
             {option}

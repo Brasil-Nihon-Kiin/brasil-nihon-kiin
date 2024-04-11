@@ -8,6 +8,7 @@ type MultiSelectProps = {
   options: string[]
   initialSelection?: string[]
   onChangeHook: (selected: Set<string>) => void
+  colSpan?: number | string
 }
 
 export function MultiSelect({
@@ -16,6 +17,7 @@ export function MultiSelect({
   options,
   initialSelection,
   onChangeHook,
+  colSpan = 1,
 }: MultiSelectProps) {
   const [selected, setSelected] = useState<string[]>(
     initialSelection ?? []
@@ -50,7 +52,7 @@ export function MultiSelect({
   const buttonClass = `${multiSelectClass} shadow-none btn h-max p-2 px-3 w-full justify-start font-normal bg-base-100 `
 
   return (
-    <div className="w-full">
+    <div className={`col-span-${colSpan} w-full`}>
       <div className="label">
         <span className="label-text">{label}</span>
       </div>
