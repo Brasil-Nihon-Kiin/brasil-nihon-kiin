@@ -65,29 +65,30 @@ export function UserForm() {
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-3 gap-3 justify-items-end w-full"
         >
-          <TextField
+          <TextField<UserFormValidation>
             errors={errors}
             register={register}
             field="firstName"
             label="Nome"
             placeholder="João"
           />
-          <TextField
+          <TextField<UserFormValidation>
             errors={errors}
             register={register}
             field="lastName"
             label="Sobrenome"
             placeholder="Silva"
           />
-          <DateField
+          <DateField<UserFormValidation>
             errors={errors}
             register={register}
             field="dateOfBirth"
             label="Data de Nascimento"
           />
-          <TextArea
+          <TextArea<UserFormValidation>
             errors={errors}
             register={register}
+            colSpan="full"
             field="description"
             label="Descrição"
             placeholder="Aprendi o Go através de..."
@@ -135,7 +136,7 @@ export function UserForm() {
             }}
           />
 
-          <TextField
+          <TextField<UserFormValidation>
             errors={errors}
             register={register}
             field="cityOfOrigin"
@@ -149,13 +150,12 @@ export function UserForm() {
             options={mostImportantCountriesListInPortuguese.map(
               countryWithEmoji
             )}
-            initialSelection={
-              mostImportantCountriesListInPortuguese
-                .filter((c) =>
-                  user.countryOfResidence?.includes(c.name)
-                )
-                .first()?.name
-            }
+            initialSelection={mostImportantCountriesListInPortuguese
+              .filter(
+                (c) => user.countryOfResidence === c.name
+              )
+              .map(countryWithEmoji)
+              .first()}
             onChangeHook={(selected) => {
               setValue(
                 "countryOfResidence",
@@ -168,13 +168,13 @@ export function UserForm() {
             label="Estado de Residência"
             placeholder="Escolha um estado"
             options={brStates.map((s) => s.name)}
-            initialSelection={user.brStateOfOrigin}
+            initialSelection={user.brStateOfResidence}
             onChangeHook={(selected) => {
               setValue("brStateOfResidence", selected)
             }}
           />
 
-          <TextField
+          <TextField<UserFormValidation>
             errors={errors}
             register={register}
             field="cityOfResidence"
@@ -182,12 +182,10 @@ export function UserForm() {
             placeholder="São Paulo"
           />
 
-          <div></div>
-
           <button
             disabled={isSubmitting}
             type="submit"
-            className="btn btn-neutral w-max col-span-2 mt-2"
+            className="btn btn-neutral w-max col-span-full mt-2"
           >
             Salvar
           </button>

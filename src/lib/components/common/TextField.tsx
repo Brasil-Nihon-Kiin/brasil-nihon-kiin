@@ -34,8 +34,8 @@ export function TextArea<T extends FieldValues>({
         className="textarea textarea-bordered h-24 w-full"
         placeholder={placeholder}
       ></textarea>
-      {errors["description"] && (
-        <p className="text-red-500">{`${errors["description"].message}`}</p>
+      {errors[field] && (
+        <p className="text-red-500">{`${errors[field]?.message}`}</p>
       )}
     </label>
   )
@@ -61,8 +61,8 @@ export function TextField<T extends FieldValues>({
         placeholder={placeholder}
         className="input input-bordered text-sm w-full max-w-xs"
       />
-      {errors.lastName && (
-        <p className="text-red-500">{`${errors.lastName.message}`}</p>
+      {errors[field] && (
+        <p className="text-red-500">{`${errors[field]?.message}`}</p>
       )}
     </label>
   )
@@ -87,8 +87,8 @@ export function DateField<T extends FieldValues>({
         type="date"
         className="input input-bordered text-sm w-full max-w-xs"
       />
-      {errors.lastName && (
-        <p className="text-red-500">{`${errors.lastName.message}`}</p>
+      {errors[field] && (
+        <p className="text-red-500">{`${errors[field]?.message}`}</p>
       )}
     </label>
   )
