@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 import {
   brStates,
+  countryWithEmoji,
   mostImportantCountriesListInPortuguese,
   mostPopularLanguagesInPortuguese,
 } from "@utils"
@@ -68,18 +69,21 @@ export function UserForm() {
             register={register}
             field="firstName"
             label="Nome"
+            placeholder="João"
           />
           <TextField
             errors={errors}
             register={register}
             field="lastName"
             label="Sobrenome"
+            placeholder="Silva"
           />
           <TextArea
             errors={errors}
             register={register}
             field="description"
             label="Descrição"
+            placeholder="Aprendi o Go através de..."
           />
 
           <MultiSelect
@@ -96,7 +100,7 @@ export function UserForm() {
             label="País(es) de Origem"
             placeholder="Escolha um ou mais países"
             options={mostImportantCountriesListInPortuguese.map(
-              (c) => `${c.emoji} ${c.name}`
+              countryWithEmoji
             )}
             initialSelection={mostImportantCountriesListInPortuguese
               .filter((c) =>
@@ -120,6 +124,35 @@ export function UserForm() {
             initialSelection={user.brStateOfOrigin}
             onChangeHook={(selected) => {
               setValue("brStateOfOrigin", selected)
+            }}
+          />
+
+          <TextField
+            errors={errors}
+            register={register}
+            field="cityOfOrigin"
+            label="Cidade de Origem"
+            placeholder="São Paulo"
+          />
+
+          <Select
+            label="País de Residência"
+            placeholder="Escolha um país"
+            options={mostImportantCountriesListInPortuguese.map(
+              countryWithEmoji
+            )}
+            initialSelection={
+              mostImportantCountriesListInPortuguese
+                .filter((c) =>
+                  user.countryOfResidence?.includes(c.name)
+                )
+                .first()?.name
+            }
+            onChangeHook={(selected) => {
+              setValue(
+                "countryOfResidence",
+                selected.split(" ").slice(1).join(" ")
+              )
             }}
           />
 

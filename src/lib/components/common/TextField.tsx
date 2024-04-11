@@ -10,6 +10,7 @@ type TextFieldProps<T extends FieldValues> = {
   register: UseFormRegister<T>
   field: string
   label: string
+  placeholder: string
 }
 
 export function TextArea<T extends FieldValues>({
@@ -17,6 +18,7 @@ export function TextArea<T extends FieldValues>({
   register,
   field,
   label,
+  placeholder,
 }: TextFieldProps<T>) {
   return (
     <label className="form-control w-full col-span-2">
@@ -26,7 +28,7 @@ export function TextArea<T extends FieldValues>({
       <textarea
         {...register(field as Path<T>)}
         className="textarea textarea-bordered h-24 w-full"
-        placeholder="Comecei no Go através de..."
+        placeholder={placeholder}
       ></textarea>
       {errors["description"] && (
         <p className="text-red-500">{`${errors["description"].message}`}</p>
@@ -40,6 +42,7 @@ export function TextField<T extends FieldValues>({
   register,
   field,
   label,
+  placeholder,
 }: TextFieldProps<T>) {
   return (
     <label className="form-control w-full max-w-xs">
@@ -48,8 +51,8 @@ export function TextField<T extends FieldValues>({
       </div>
       <input
         {...register(field as Path<T>)}
-        placeholder="Silva"
-        className="input input-bordered w-full max-w-xs"
+        placeholder={placeholder}
+        className="input input-bordered text-sm w-full max-w-xs"
       />
       {errors.lastName && (
         <p className="text-red-500">{`${errors.lastName.message}`}</p>

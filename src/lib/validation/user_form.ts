@@ -15,6 +15,8 @@ export const userFormSchema = z.object({
     .nullish()
     .transform((countries) => countries ?? []),
   brStateOfOrigin: z.string().optional().nullish(),
+  countryOfResidence: z.string().optional().nullish(),
+  ciyOfOrigin: z.string().optional().nullish(),
 })
 
 export type UserFormValidation = z.infer<
