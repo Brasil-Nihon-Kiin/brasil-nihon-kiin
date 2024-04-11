@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { toJSON } from "@utils"
+
 export const userFormSchema = z.object({
   firstName: z.string().optional().nullish(),
   lastName: z.string().optional().nullish(),
@@ -24,6 +26,12 @@ export const userFormSchema = z.object({
   countryOfResidence: z.string().optional().nullish(),
   cityOfResidence: z.string().optional().nullish(),
   brStateOfResidence: z.string().optional().nullish(),
+
+  socialsLinks: z
+    .record(z.string(), z.string())
+    .optional()
+    .nullish()
+    .transform((o) => toJSON(o)),
 })
 
 export type UserFormValidation = z.infer<

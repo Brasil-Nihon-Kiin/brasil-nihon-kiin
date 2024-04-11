@@ -5,6 +5,16 @@ import { useUser as useClerkUser } from "@clerk/nextjs"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import { LinkIcon } from "@heroicons/react/24/solid"
+
+import {
+  faFacebook,
+  faInstagram,
+  faTwitch,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 import {
   brStates,
   countryWithEmoji,
@@ -26,8 +36,10 @@ import {
   Divider,
   MultiSelect,
   Select,
+  SocialsField,
   TextArea,
   TextField,
+  TextFieldTypes,
 } from "../common/exports"
 
 export function UserForm() {
@@ -41,6 +53,7 @@ export function UserForm() {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<UserFormValidation>({
     resolver: zodResolver(userFormSchema),
@@ -181,6 +194,97 @@ export function UserForm() {
             field="cityOfResidence"
             label="Cidade de Residência"
             placeholder="São Paulo"
+          />
+
+          <SocialsField
+            label="Facebook"
+            placeholder="https://facebook.com/joao.silva"
+            type={TextFieldTypes.Url}
+            brandIcon={
+              <FontAwesomeIcon
+                size={"1x"}
+                icon={faFacebook}
+              />
+            }
+            onChangeHook={(text) => {
+              const currentSocials =
+                getValues("socialsLinks")
+              setValue("socialsLinks", {
+                ...currentSocials,
+                facebook: text,
+              })
+            }}
+          />
+          <SocialsField
+            label="Instagram"
+            placeholder="https://instagram.com/joao.silva"
+            type={TextFieldTypes.Url}
+            brandIcon={
+              <FontAwesomeIcon
+                size={"1x"}
+                icon={faInstagram}
+              />
+            }
+            onChangeHook={(text) => {
+              const currentSocials =
+                getValues("socialsLinks")
+              setValue("socialsLinks", {
+                ...currentSocials,
+                instagram: text,
+              })
+            }}
+          />
+          <SocialsField
+            label="YouTube"
+            placeholder="https://youtube.com/@joao.silva"
+            type={TextFieldTypes.Url}
+            brandIcon={
+              <FontAwesomeIcon
+                size={"1x"}
+                icon={faYoutube}
+              />
+            }
+            onChangeHook={(text) => {
+              const currentSocials =
+                getValues("socialsLinks")
+              setValue("socialsLinks", {
+                ...currentSocials,
+                youtube: text,
+              })
+            }}
+          />
+          <SocialsField
+            label="Twitch"
+            placeholder="https://twitch.com/@joao.silva"
+            type={TextFieldTypes.Url}
+            brandIcon={
+              <FontAwesomeIcon
+                size={"1x"}
+                icon={faTwitch}
+              />
+            }
+            onChangeHook={(text) => {
+              const currentSocials =
+                getValues("socialsLinks")
+              setValue("socialsLinks", {
+                ...currentSocials,
+                twitch: text,
+              })
+            }}
+          />
+          <SocialsField
+            label="Pessoal"
+            placeholder="https://meublog.com.br"
+            type={TextFieldTypes.Url}
+            brandIcon={<LinkIcon className="h-4 w-4" />}
+            onChangeHook={(text) => {
+              const currentSocials =
+                getValues("socialsLinks")
+              setValue("socialsLinks", {
+                ...currentSocials,
+                personal: text,
+              })
+            }}
           />
 
           <button

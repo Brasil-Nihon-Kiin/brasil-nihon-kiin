@@ -22,21 +22,25 @@ model User {
   // Profile Data
   firstName          String?
   lastName           String?
-  description        String?
   dateOfBirth        String?
+  //
+  description        String?
+  //
   languages          String[]
+  //
   nationalities      String[]
   brStateOfOrigin    String?
   cityOfOrigin       String?
+  //
   countryOfResidence String?
   brStateOfResidence String?
   cityOfResidence    String?
+  //
   socialsLinks       Json?
   socialsUsers       Json?
+  //
   imageLink          String?
   ratePerHour        Decimal?
-  //--------------------------------------------------------
-  // Rank Data
   elo                Decimal?
   //--------------------------------------------------------
   // Status
