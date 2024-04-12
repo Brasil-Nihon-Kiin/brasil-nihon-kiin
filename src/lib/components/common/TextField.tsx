@@ -19,7 +19,7 @@ export enum TextFieldTypes {
 }
 
 type TextFieldProps<T extends FieldValues> = {
-  errors: FieldErrors<T>
+  errors?: FieldErrors<T>
   register?: UseFormRegister<T>
   field: string
   label: string
@@ -57,7 +57,7 @@ export function TextField<T extends FieldValues>({
           if (onChangeHook) onChangeHook(target.value)
         }}
       />
-      {errors[field] && (
+      {errors && errors[field] && (
         <p className="text-red-500">{`${errors[field]?.message}`}</p>
       )}
     </label>
@@ -88,7 +88,7 @@ export function DateField<T extends FieldValues>({
         type="date"
         className="input input-bordered text-sm w-full max-w-xs"
       />
-      {errors[field] && (
+      {errors && errors[field] && (
         <p className="text-red-500">{`${errors[field]?.message}`}</p>
       )}
     </label>
@@ -115,7 +115,7 @@ export function TextArea<T extends FieldValues>({
         className="textarea textarea-bordered h-24 w-full"
         placeholder={placeholder}
       ></textarea>
-      {errors[field] && (
+      {errors && errors[field] && (
         <p className="text-red-500">{`${errors[field]?.message}`}</p>
       )}
     </label>
