@@ -1,7 +1,5 @@
 "use client"
 
-import { useUser as useClerkUser } from "@clerk/nextjs"
-
 import Link from "next/link"
 
 import {
@@ -12,6 +10,8 @@ import {
 } from "@heroicons/react/24/solid"
 
 import { Theme, useTheme } from "@context"
+
+import { useClerkUser } from "@hooks"
 
 import { CurrentUserAvatar } from "@components"
 
@@ -71,9 +71,7 @@ function SettingsButton() {
 
   if (isSignedIn)
     return (
-      <Link
-        href={`/usuarios/${clerkUser.publicMetadata.nanoid}`}
-      >
+      <Link href={`/usuarios/${clerkUser.username}`}>
         <Cog6ToothIcon className="h-6 w-6" />
       </Link>
     )

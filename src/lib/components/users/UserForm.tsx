@@ -1,7 +1,5 @@
 import { useParams } from "next/navigation"
 
-import { useUser as useClerkUser } from "@clerk/nextjs"
-
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -26,6 +24,8 @@ import { updateUser } from "@actions"
 
 import { useUserForm } from "@context"
 
+import { useClerkUser } from "@hooks"
+
 import {
   UserFormValidation,
   userFormSchema,
@@ -44,9 +44,9 @@ import {
 
 export function UserForm() {
   const params = useParams()
-  const userNid = params.user_nid as string
+  const userId = params.user_id as string
 
-  const { user: clerkUser } = useClerkUser()
+  const { userIdIsFromSignedInUser } = useClerkUser()
   const { user, setUser } = useUserForm()
 
   const {
@@ -63,14 +63,11 @@ export function UserForm() {
   async function onSubmit(newData: UserFormValidation) {
     console.log(newData)
 
-    const updatedUser = await updateUser(userNid, newData)
+    const updatedUser = await updateUser(userId, newData)
     if (updatedUser) setUser(updatedUser)
   }
 
-  if (
-    clerkUser &&
-    clerkUser.publicMetadata.nanoid === userNid
-  ) {
+  if (userIdIsFromSignedInUser(userId)) {
     return (
       <section className="flex flex-col gap-4 items-center">
         <Divider text="Editar Usuário" />

@@ -1,16 +1,15 @@
-import {
-  UserButton,
-  useUser as useClerkUser,
-} from "@clerk/nextjs"
+import { UserButton } from "@clerk/nextjs"
 
 import { User } from "@prisma/client"
 
 import Link from "next/link"
 import Image from "next/image"
 
+import { UserIcon } from "@heroicons/react/24/solid"
+
 import "@utils/string"
 
-import { UserIcon } from "@heroicons/react/24/solid"
+import { useClerkUser } from "@hooks"
 
 export function CurrentUserAvatar() {
   const { isSignedIn } = useClerkUser()

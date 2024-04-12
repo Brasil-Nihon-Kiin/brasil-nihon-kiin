@@ -2,12 +2,18 @@
 
 import { useEffect, useState } from "react"
 
-import { LoadingState, Nid, UserWithArticles } from "@types"
+import { useUser as useClerkUserOriginal } from "@clerk/nextjs"
+
+import {
+  LoadingState,
+  UserId,
+  UserWithArticles,
+} from "@types"
 
 import { getUser } from "@actions"
 
 export function useUser(
-  nid: Nid,
+  id: UserId,
   includeArticles: boolean = true
 ) {
   const [loadingState, setLoadingState] = useState(
@@ -20,7 +26,7 @@ export function useUser(
     async function getUserData() {
       setLoadingState(LoadingState.Loading)
 
-      const userData = await getUser(nid, includeArticles)
+      const userData = await getUser(id, includeArticles)
 
       if (userData) setUser(userData)
 
@@ -28,7 +34,22 @@ export function useUser(
     }
 
     getUserData()
-  }, [nid, includeArticles])
+  }, [id, includeArticles])
 
   return { loadingState, user }
+}
+
+export function useClerkUser() {
+  const clerkData = useClerkUserOriginal()
+
+  function userIdIsFromSignedInUser(id: UserId) {
+    return (
+      !!clerkData.user &&
+      (clerkData.user.publicMetadata.nanoid === id ||
+        clerkData.user.username === id ||
+        clerkData.user.id === id)
+    )
+  }
+
+  return { ...clerkData, userIdIsFromSignedInUser }
 }

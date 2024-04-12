@@ -16,9 +16,9 @@ import {
 
 export default function Usuario() {
   const params = useParams()
-  const userNid = params.user_nid as string
+  const userId = params.user_id as string
 
-  const { user, loadingState } = useUser(userNid, false)
+  const { user, loadingState } = useUser(userId, false)
 
   if (loadingState === LoadingState.Loading) {
     return <Progress />

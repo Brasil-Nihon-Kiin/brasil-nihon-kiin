@@ -2,19 +2,31 @@
 
 import { prisma, toJSON } from "@utils"
 
-import { Nid } from "@types"
+import { UserId } from "@types"
 
 export async function getUser(
-  nid: Nid,
+  id: UserId,
   includeArticles: boolean = false
 ) {
   try {
-    const user = await prisma.user.findUnique({
-      where: { nanoid: nid },
+    const user = await prisma.user.findMany({
+      where: {
+        OR: [
+          {
+            nanoid: id,
+          },
+          {
+            clerkId: id,
+          },
+          {
+            username: id,
+          },
+        ],
+      },
       include: { articles: includeArticles },
     })
 
-    return toJSON(user)
+    return toJSON(user.first())
   } catch (e) {
     console.error(e)
   }

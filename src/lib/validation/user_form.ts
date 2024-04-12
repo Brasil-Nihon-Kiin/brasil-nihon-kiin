@@ -32,6 +32,18 @@ export const userFormSchema = z.object({
     .optional()
     .nullish()
     .transform((o) => toJSON(o)),
+
+  goUsers: z
+    .record(
+      z.string(),
+      z.object({
+        username: z.string(),
+        strength: z.string(),
+      })
+    )
+    .optional()
+    .nullish()
+    .transform((o) => toJSON(o)),
 })
 
 export type UserFormValidation = z.infer<

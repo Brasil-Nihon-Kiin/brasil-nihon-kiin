@@ -2,9 +2,7 @@ import { User } from "@prisma/client"
 
 import { createContext, useContext, useState } from "react"
 
-import { Nid, ReactChildren } from "@types"
-
-import { useUser } from "@hooks"
+import { ReactChildren } from "@types"
 
 type UserFormContext = {
   user: User

@@ -37,7 +37,7 @@ model User {
   cityOfResidence    String?
   //
   socialsLinks       Json?
-  socialsUsers       Json?
+  goUsers            Json?
   //
   imageLink          String?
   ratePerHour        Decimal?
