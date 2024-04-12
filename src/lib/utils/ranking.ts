@@ -1,5 +1,4 @@
 export enum Rankings {
-  NoRank = "",
   k20 = "20k",
   k19 = "19k",
   k18 = "18k",
@@ -37,6 +36,13 @@ export enum Rankings {
   p8 = "8p",
   p9 = "9p",
 }
+
+export const rankings = Object.entries(Rankings).map(
+  ([code, name]) => ({
+    code,
+    name,
+  })
+)
 
 export const RankingsMap = {
   "20k": 100,

@@ -2,6 +2,15 @@ import { z } from "zod"
 
 import { toJSON } from "@utils"
 
+const goUserAndStrengthSchema = z.object({
+  username: z.string().optional().nullish(),
+  strength: z.string().optional().nullish(),
+})
+
+export type GoUserAndStrengthSchema = z.infer<
+  typeof goUserAndStrengthSchema
+>
+
 export const userFormSchema = z.object({
   firstName: z.string().optional().nullish(),
   lastName: z.string().optional().nullish(),
@@ -34,13 +43,7 @@ export const userFormSchema = z.object({
     .transform((o) => toJSON(o)),
 
   goUsers: z
-    .record(
-      z.string(),
-      z.object({
-        username: z.string(),
-        strength: z.string(),
-      })
-    )
+    .record(z.string(), goUserAndStrengthSchema)
     .optional()
     .nullish()
     .transform((o) => toJSON(o)),

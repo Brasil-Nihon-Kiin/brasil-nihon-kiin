@@ -18,6 +18,7 @@ import {
   countryWithEmoji,
   mostImportantCountriesListInPortuguese,
   mostPopularLanguagesInPortuguese,
+  rankings,
 } from "@utils"
 
 import { updateUser } from "@actions"
@@ -34,6 +35,7 @@ import {
 import {
   DateField,
   Divider,
+  GoServerField,
   MultiSelect,
   Select,
   SocialsField,
@@ -63,7 +65,10 @@ export function UserForm() {
   async function onSubmit(newData: UserFormValidation) {
     console.log(newData)
 
-    const updatedUser = await updateUser(userId, newData)
+    const updatedUser = await updateUser(
+      user.nanoid,
+      newData
+    )
     if (updatedUser) setUser(updatedUser)
   }
 
@@ -193,6 +198,105 @@ export function UserForm() {
             placeholder="São Paulo"
           />
 
+          <GoServerField
+            serverName="OGS"
+            initialValue={getValues("goUsers")?.ogs}
+            onChangeTextHook={(selected) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...(goUsers && goUsers),
+                ogs: {
+                  ...(goUsers?.ogs && goUsers.ogs),
+                  username: selected,
+                },
+              })
+            }}
+            onChangeStrengthHook={(strength) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...goUsers,
+                ogs: {
+                  ...(goUsers?.ogs && goUsers.ogs),
+                  strength: strength,
+                },
+              })
+            }}
+          />
+          <GoServerField
+            serverName="KGS"
+            initialValue={getValues("goUsers")?.kgs}
+            onChangeTextHook={(selected) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...(goUsers && goUsers),
+                kgs: {
+                  ...(goUsers?.kgs && goUsers.kgs),
+                  username: selected,
+                },
+              })
+            }}
+            onChangeStrengthHook={(strength) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...goUsers,
+                kgs: {
+                  ...(goUsers?.kgs && goUsers.kgs),
+                  strength: strength,
+                },
+              })
+            }}
+          />
+          <GoServerField
+            serverName="Fox Weiqi"
+            initialValue={getValues("goUsers")?.fox}
+            onChangeTextHook={(selected) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...(goUsers && goUsers),
+                fox: {
+                  ...(goUsers?.fox && goUsers.fox),
+                  username: selected,
+                },
+              })
+            }}
+            onChangeStrengthHook={(strength) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...goUsers,
+                fox: {
+                  ...(goUsers?.kgs && goUsers.fox),
+                  strength: strength,
+                },
+              })
+            }}
+          />
+          <GoServerField
+            serverName="Pandanet"
+            initialValue={getValues("goUsers")?.pandanet}
+            onChangeTextHook={(selected) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...(goUsers && goUsers),
+                pandanet: {
+                  ...(goUsers?.pandanet &&
+                    goUsers.pandanet),
+                  username: selected,
+                },
+              })
+            }}
+            onChangeStrengthHook={(strength) => {
+              const goUsers = getValues("goUsers")
+              setValue("goUsers", {
+                ...goUsers,
+                pandanet: {
+                  ...(goUsers?.pandanet &&
+                    goUsers.pandanet),
+                  strength: strength,
+                },
+              })
+            }}
+          />
+
           <SocialsField
             label="Facebook"
             placeholder="https://facebook.com/joao.silva"
@@ -202,6 +306,9 @@ export function UserForm() {
                 size={"1x"}
                 icon={faFacebook}
               />
+            }
+            initialValue={
+              getValues("socialsLinks")?.facebook
             }
             onChangeHook={(text) => {
               const currentSocials =
@@ -222,6 +329,9 @@ export function UserForm() {
                 icon={faInstagram}
               />
             }
+            initialValue={
+              getValues("socialsLinks")?.instagram
+            }
             onChangeHook={(text) => {
               const currentSocials =
                 getValues("socialsLinks")
@@ -241,6 +351,9 @@ export function UserForm() {
                 icon={faYoutube}
               />
             }
+            initialValue={
+              getValues("socialsLinks")?.youtube
+            }
             onChangeHook={(text) => {
               const currentSocials =
                 getValues("socialsLinks")
@@ -252,7 +365,7 @@ export function UserForm() {
           />
           <SocialsField
             label="Twitch"
-            placeholder="https://twitch.com/@joao.silva"
+            placeholder="https://twitch.com/joao.silva"
             type={TextFieldTypes.Url}
             brandIcon={
               <FontAwesomeIcon
@@ -260,6 +373,7 @@ export function UserForm() {
                 icon={faTwitch}
               />
             }
+            initialValue={getValues("socialsLinks")?.twitch}
             onChangeHook={(text) => {
               const currentSocials =
                 getValues("socialsLinks")
@@ -274,6 +388,9 @@ export function UserForm() {
             placeholder="https://meublog.com.br"
             type={TextFieldTypes.Url}
             brandIcon={<LinkIcon className="h-4 w-4" />}
+            initialValue={
+              getValues("socialsLinks")?.pessoal
+            }
             onChangeHook={(text) => {
               const currentSocials =
                 getValues("socialsLinks")

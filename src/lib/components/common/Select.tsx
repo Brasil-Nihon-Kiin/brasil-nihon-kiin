@@ -3,7 +3,7 @@ type SelectProps = {
   placeholder: string
   options: string[]
   initialSelection?: string | null | undefined
-  onChangeHook: (selected: string) => void
+  onChangeHook?: (selected: string) => void
 }
 
 export function Select({
@@ -14,7 +14,7 @@ export function Select({
   onChangeHook,
 }: SelectProps) {
   return (
-    <label className="form-control w-full max-w-xs">
+    <label className="form-control w-full">
       <div className="label">
         <span className="label-text">{label}</span>
       </div>
@@ -22,12 +22,14 @@ export function Select({
         onChange={(e) => {
           const target = e.target as HTMLSelectElement
           const selected = options[target.selectedIndex - 1]
-          onChangeHook(selected)
+          if (onChangeHook) onChangeHook(selected)
         }}
         className="select select-bordered w-full"
         defaultValue={initialSelection ?? placeholder}
       >
-        <option className="text-neutral-100" disabled>{placeholder}</option>
+        <option className="text-neutral-100" disabled>
+          {placeholder}
+        </option>
         {options.map((option, i) => (
           <option key={i} value={option}>
             {option}
