@@ -43,7 +43,7 @@ model User {
   ratePerHour        Decimal?
   elo                Decimal?
   // Settings
-  theme              String?
+  // theme              String?
   //--------------------------------------------------------
   // Status
   isAdmin            Boolean   @default(false)

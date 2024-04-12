@@ -28,7 +28,7 @@ function Logo() {
 
 function PagesNav() {
   return (
-    <ul className="menu menu-horizontal px-1">
+    <ul className="menu menu-horizontal">
       <PagesNavItem href="/artigos" text="Artigos" />
       <PagesNavItem href="/calendario" text="Calendário" />
     </ul>
@@ -43,7 +43,10 @@ type PagesNavItemProps = {
 function PagesNavItem({ href, text }: PagesNavItemProps) {
   return (
     <li>
-      <Link href={href} className="text-base font-semibold">
+      <Link
+        href={href}
+        className="text-base font-semibold mr-2"
+      >
         {text}
       </Link>
     </li>

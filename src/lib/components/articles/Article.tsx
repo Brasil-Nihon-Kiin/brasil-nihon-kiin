@@ -60,7 +60,7 @@ function ArticleDate({ date }: ArticleDateProps) {
   return (
     <p className="text-neutral-300 text-xs">
       {date.toLocaleDateString("pt-BR")}{" "}
-      {date.toLocaleTimeString("pt-BR")}
+      {/* {date.toLocaleTimeString("pt-BR")} */}
     </p>
   )
 }
@@ -96,12 +96,9 @@ type ArticlesListProps = {
 
 export function ArticlesList({
   articles,
-  totalCols = 2,
 }: ArticlesListProps) {
   return (
-    <section
-      className={`h-max grid grid-cols-${totalCols} gap-4`}
-    >
+    <section className={`h-max flex flex-col gap-4`}>
       {articles.map((article, i) => {
         return <ArticleCard key={i} article={article} />
       })}
