@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 import { EventInput } from "@fullcalendar/core"
 import FullCalendar from "@fullcalendar/react"
@@ -7,12 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid"
 import listPlugin from "@fullcalendar/list"
 import interactionPlugin from "@fullcalendar/interaction"
 import ptLocale from "@fullcalendar/core/locales/pt-br"
-
-// import Tippy, { tippy } from "@tippyjs/react"
-import tippy from "tippy.js"
-import { Duration } from "svix"
-import Tippy from "@tippyjs/react"
-import { useState } from "react"
+import { EventImpl } from "@fullcalendar/core/internal"
 
 const events: EventInput[] = [
   {
@@ -27,7 +22,7 @@ const events: EventInput[] = [
     start: new Date(2024, 3, 12, 16),
     end: new Date(2024, 3, 12, 18),
     color: "green",
-    url: "http://localhost:3000",
+    // url: "http://localhost:3000",
   },
   {
     id: "3",
@@ -59,7 +54,8 @@ export function EventsCalendar({
       ? ""
       : "400px"
 
-  const router = useRouter()
+  const [clickedEvent, setClickedEvent] =
+    useState<EventImpl>()
 
   return (
     <div
@@ -74,7 +70,12 @@ export function EventsCalendar({
           listPlugin,
           interactionPlugin,
         ]}
-        // initialView={"agendaWeek"}
+        headerToolbar={{
+          left: "prev,next today",
+          center: "title",
+          right:
+            "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+        }}
         initialView={initialView}
         weekends={true}
         allDaySlot={false}
@@ -93,67 +94,50 @@ export function EventsCalendar({
           console.log(data.event.end)
         }}
         eventClick={(data) => {
-          router.push(data.event.url)
+          const event = data.event
+          setClickedEvent(event)
+
+          const dialog = document.getElementById(
+            "my_modal_2"
+          ) as HTMLDialogElement
+          dialog.showModal()
         }}
-        customButtons={{
-          createButton: {
-            text: "Criar",
-            click: function () {
-              alert("clicked the custom button!")
-            },
-          },
+        eventDidMount={(data) => {
+          const eventEl = data.el
+          const event = data.event
+          eventEl.ondblclick = () => {
+            console.log("here dbl")
+            event.remove()
+          }
         }}
-        headerToolbar={{
-          left: "prev,next today",
-          center: "title",
-          right:
-            "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-        }}
-        // header={{k
-        //     left: 'prev,next today myCustomButton',
-        //     center: 'title',
-        //     right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        // }}
-        // event
-        // eventMouseEnter={(arg) => {
-        //   return <CalendarTooltip title={arg.event.title} />
-        // }}
-        // eventContent={(info) => (
-        //   <CalendarTooltip title={info.event.title} />
-        // )}
-        // eventDidMount={(info) => {
-        //   console.log("here")
-        //   //console.log(info.event);
-        //   return <CalendarTooltip title="here" />
-        //   // tippy(info.el, {
-        //   //   trigger: "click",
-        //   //   touch: "hold",
-        //   //   allowHTML: true,
-        //   //   content: `<h3>${info.event.extendedProps.author}</h3>
-        //   //       <hr/>
-        //   //       <h5>${info.event.extendedProps.roomNumber}</h5>
-        //   //       <hr/>
-        //   //       <p>${info.event.extendedProps.description}</p>`,
-        //   // })
-        // }}
       />
+      <EventModal event={clickedEvent} />
     </div>
   )
 }
 
-type CalendarEventProps = {
-  title: string
+type EventModalProps = {
+  event?: EventImpl
 }
 
-function CalendarTooltip({ title }: CalendarEventProps) {
+function EventModal({ event }: EventModalProps) {
   return (
-    <Tippy
-      trigger=""
-      content={<div className="bg-neutral-100">Hello</div>}
-    >
-      <div className="p-2 bg-accent rounded-lg w-[100%]">
-        {title}
-      </div>
-    </Tippy>
+    <dialog id="my_modal_2" className="modal">
+      {event && (
+        <>
+          <div className="modal-box">
+            <h2 className="font-bold text-xl">
+              {event.title}
+            </h2>
+            <p className="py-4">
+              Press ESC key or click outside to close
+            </p>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </>
+      )}
+    </dialog>
   )
 }
