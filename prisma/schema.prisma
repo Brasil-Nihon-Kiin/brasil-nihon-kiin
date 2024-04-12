@@ -42,6 +42,8 @@ model User {
   imageLink          String?
   ratePerHour        Decimal?
   elo                Decimal?
+  // Settings
+  theme              String?
   //--------------------------------------------------------
   // Status
   isAdmin            Boolean   @default(false)

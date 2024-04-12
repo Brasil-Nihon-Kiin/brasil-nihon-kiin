@@ -2,6 +2,10 @@ import { z } from "zod"
 
 import { toJSON } from "@utils"
 
+import { Theme } from "@context"
+
+// 1. Personal Data
+
 const goUserAndStrengthSchema = z.object({
   username: z.string().optional().nullish(),
   strength: z.string().optional().nullish(),
@@ -51,4 +55,14 @@ export const userFormSchema = z.object({
 
 export type UserFormValidation = z.infer<
   typeof userFormSchema
+>
+
+// 2. Settings
+
+export const userSettingsSchema = z.object({
+  theme: z.nativeEnum(Theme),
+})
+
+export type UserSettingsValidation = z.infer<
+  typeof userSettingsSchema
 >

@@ -32,6 +32,7 @@ import { useClerkUser } from "@hooks"
 
 import {
   UserFormValidation,
+  UserSettingsValidation,
   userFormSchema,
 } from "@validation"
 
@@ -52,6 +53,33 @@ export function UserForm() {
   const userId = params.user_id as string
 
   const { userIdIsFromSignedInUser } = useClerkUser()
+
+  if (userIdIsFromSignedInUser(userId)) {
+    return (
+      <section className="flex flex-col gap-4 items-center">
+        <ProfileDataForm />
+        {/* <UserSettingsForm /> */}
+      </section>
+    )
+  }
+}
+
+function UserSettingsForm() {
+  const { user, setUser } = useUserForm()
+
+  const formMethods = useForm<UserSettingsValidation>({
+    resolver: zodResolver(userFormSchema),
+    // defaultValues: user,
+  })
+
+  return (
+    <>
+      <Divider text="Configurações" />
+    </>
+  )
+}
+
+function ProfileDataForm() {
   const { user, setUser } = useUserForm()
 
   const formMethods = useForm<UserFormValidation>({
@@ -60,8 +88,6 @@ export function UserForm() {
   })
 
   async function onSubmit(newData: UserFormValidation) {
-    console.log(newData)
-
     const updatedUser = await updateUser(
       user.nanoid,
       newData
@@ -69,33 +95,31 @@ export function UserForm() {
     if (updatedUser) setUser(updatedUser)
   }
 
-  if (userIdIsFromSignedInUser(userId)) {
-    return (
+  return (
+    <>
+      <Divider text="Editar Usuário" />
       <FormProvider {...formMethods}>
-        <section className="flex flex-col gap-4 items-center">
-          <Divider text="Editar Usuário" />
-          <form
-            onSubmit={formMethods.handleSubmit(onSubmit)}
-            className="grid grid-cols-3 gap-3 justify-items-end w-full"
-          >
-            <PersonalDataFormSection />
-            <OfOriginSection />
-            <OfResidenceSection />
-            <GoServersSection />
-            <SocialsSection />
+        <form
+          onSubmit={formMethods.handleSubmit(onSubmit)}
+          className="grid grid-cols-3 gap-3 justify-items-end w-full"
+        >
+          <PersonalDataFormSection />
+          <OfOriginSection />
+          <OfResidenceSection />
+          <GoServersSection />
+          <SocialsSection />
 
-            <button
-              disabled={formMethods.formState.isSubmitting}
-              type="submit"
-              className="btn btn-neutral w-max col-span-full mt-2"
-            >
-              Salvar
-            </button>
-          </form>
-        </section>
+          <button
+            disabled={formMethods.formState.isSubmitting}
+            type="submit"
+            className="btn btn-neutral w-max col-span-full mt-2"
+          >
+            Salvar
+          </button>
+        </form>
       </FormProvider>
-    )
-  }
+    </>
+  )
 }
 
 function PersonalDataFormSection() {

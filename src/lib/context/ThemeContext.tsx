@@ -1,6 +1,11 @@
 "use client"
 
-import { createContext, useContext, useState } from "react"
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
 
 import { ReactChildren } from "@types"
 
@@ -10,10 +15,15 @@ export enum Theme {
   dark = "dark",
 }
 
+export function stringToTheme(s: string) {
+  return Object.values(Theme).find((t) => t === s)!
+}
+
 type ThemeContext = {
   theme: Theme
   setTheme: React.Dispatch<React.SetStateAction<Theme>>
   cycleTheme: () => void
+  syncTheme: () => void
 }
 
 const ThemeContext = createContext<ThemeContext | null>(
@@ -21,7 +31,26 @@ const ThemeContext = createContext<ThemeContext | null>(
 )
 
 export function ThemeProvider({ children }: ReactChildren) {
-  const [theme, setTheme] = useState<Theme>(Theme.retro)
+  function getPreference() {
+    if (typeof localStorage !== "undefined") {
+      const storedPreference = localStorage.getItem("theme")
+      return storedPreference
+        ? stringToTheme(storedPreference)
+        : Theme.retro
+    } else {
+      return Theme.retro
+    }
+  }
+
+  function savePreference(theme: Theme) {
+    localStorage.setItem("theme", theme)
+  }
+
+  function syncTheme() {
+    setTheme(getPreference())
+  }
+
+  const [theme, setTheme] = useState<Theme>(getPreference())
 
   function cycleTheme() {
     const themes = Object.values(Theme)
@@ -29,8 +58,16 @@ export function ThemeProvider({ children }: ReactChildren) {
     const length = themes.length
     const nextIndex = (currentThemeIndex + 1) % length
     const nextTheme = themes[nextIndex]
+    savePreference(nextTheme)
     setTheme(nextTheme)
   }
+
+  useEffect(() => {
+    syncTheme()
+    document.documentElement.dataset.theme = theme
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <ThemeContext.Provider
@@ -38,6 +75,7 @@ export function ThemeProvider({ children }: ReactChildren) {
         theme,
         setTheme,
         cycleTheme,
+        syncTheme,
       }}
     >
       {children}

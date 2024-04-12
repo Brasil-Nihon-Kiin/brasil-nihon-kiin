@@ -1,24 +1,16 @@
 "use client"
 
-import { ClerkProvider } from "@clerk/nextjs"
-import { shadesOfPurple } from "@clerk/themes"
-import { ptBR } from "@clerk/localizations"
-
-import { Inter } from "next/font/google"
+import dynamic from "next/dynamic"
 
 import "./globals.css"
 
 import { ReactChildren } from "@types"
 
-import {
-  Theme,
-  ThemeProvider,
-  useTheme,
-} from "@context"
+import { ThemeProvider } from "@context"
 
-import { Footer, Topbar } from "@components"
+import { Progress } from "@components"
 
-const inter = Inter({ subsets: ["latin"] })
+import { ThemedAndAuthedApp } from "./App"
 
 export default function RootLayout({
   children,
@@ -26,32 +18,22 @@ export default function RootLayout({
   return (
     <ThemeProvider>
       <ThemedAndAuthedApp>{children}</ThemedAndAuthedApp>
+      {/* <DynamicApp>{children}</DynamicApp> */}
     </ThemeProvider>
   )
 }
 
-function ThemedAndAuthedApp({ children }: ReactChildren) {
-  const { theme } = useTheme()
-
-  return (
-    <ClerkProvider
-      localization={ptBR}
-      appearance={{
-        baseTheme:
-          theme === Theme.dark ? shadesOfPurple : undefined,
-      }}
-    >
-      <html data-theme={theme} lang="pt-BR">
-        <body
-          className={`${inter.className} grid grid-rows-[auto_1fr_auto] h-screen`}
-        >
-          <Topbar />
-          <main className="flex mb-20 justify-center p-4 pt-10">
-            {children}
-          </main>
-          <Footer />
+const DynamicApp = dynamic(
+  () =>
+    import("./App").then((mod) => mod.ThemedAndAuthedApp),
+  {
+    loading: () => (
+      <html>
+        <body className="justify-center items-center w-[100vw] h-[100vh]">
+          <Progress />
         </body>
       </html>
-    </ClerkProvider>
-  )
-}
+    ),
+    ssr: false,
+  }
+)
