@@ -17,7 +17,7 @@ import {
 
 import { postEvent } from "@actions"
 
-import { useClerkUser, useUser } from "@hooks"
+import { useClerkUser } from "@hooks"
 
 import { Select, TextArea, TextField } from "@components"
 

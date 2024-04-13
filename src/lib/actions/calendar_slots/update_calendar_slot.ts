@@ -7,7 +7,9 @@ import { Nanoid } from "@types"
 export async function updateCalendarSlotTime(
   calendarSlotId: Nanoid,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
+  name?: string | null | undefined,
+  associatedEventsIds?: Nanoid[]
 ) {
   try {
     const event = await prisma.calendarSlot.update({
@@ -17,6 +19,7 @@ export async function updateCalendarSlotTime(
       data: {
         startTime,
         endTime,
+        name,
       },
     })
 

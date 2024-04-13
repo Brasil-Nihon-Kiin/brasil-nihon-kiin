@@ -11,17 +11,34 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import listPlugin from "@fullcalendar/list"
 import interactionPlugin, {
-  EventDragStopArg,
   EventResizeDoneArg,
 } from "@fullcalendar/interaction"
 import ptLocale from "@fullcalendar/core/locales/pt-br"
 import { EventImpl } from "@fullcalendar/core/internal"
-import { standardNanoid } from "../../utils/server_utils"
-import { useCalendarSlots } from "../../hooks/use_calendar_slots"
-import { postCalendarSlot } from "../../actions/exports"
-import { useClerkUser } from "../../hooks/use_users"
-import { updateCalendarSlotTime } from "../../actions/calendar_slots/update_calendar_slot"
-import { toDate } from "../../utils/utils"
+
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+import { standardNanoid, toDate } from "@utils"
+
+import {
+  postCalendarSlot,
+  updateCalendarSlotTime,
+} from "@actions"
+
+import {
+  CalendarSlotValidation,
+  eventFormSchema,
+} from "@validation"
+
+import {
+  useCalendarSlots,
+  useClerkUser,
+  useEvents,
+} from "@hooks"
+
+import { MultiSelect, TextField } from "../common/exports"
+import { TrashIcon } from "@heroicons/react/24/solid"
 
 const events: EventInput[] = [
   {
@@ -184,17 +201,92 @@ type EventModalProps = {
 function CalendarSlotEditingModal({
   event,
 }: EventModalProps) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<CalendarSlotValidation>({
+    resolver: zodResolver(eventFormSchema),
+  })
+
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  async function onSubmit(newData: CalendarSlotValidation) {
+    try {
+      await updateCalendarSlotTime(
+        event!.id,
+        toDate(event!.start!),
+        toDate(event!.end!),
+        newData.name
+      )
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const { events } = useEvents()
+
   return (
     <dialog id="calendar-slot-edit" className="modal">
       {event && (
         <>
-          <div className="modal-box">
-            <h2 className="font-bold text-xl">
-              {event.title}
+          <div className="modal-box flex flex-col gap-4">
+            <h2 className="font-medium text-2xl pl-1">
+              Editar Horário de Calendário
             </h2>
-            <p className="py-4">
-              Press ESC key or click outside to close
-            </p>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid grid-cols-1 justify-items-end gap-4"
+            >
+              <TextField<CalendarSlotValidation>
+                errors={errors}
+                register={register}
+                field="name"
+                label="Nome"
+                placeholder="Torneio Nacional..."
+              />
+              {events && (
+                <MultiSelect
+                  label="Eventos Associados"
+                  placeholder="Escolha um ou mais eventos"
+                  colSpan={"full"}
+                  options={events.map((e) => ({
+                    key: e.nanoid,
+                    value: e.name,
+                  }))}
+                  // initialSelection={user.languages}
+                  onChangeHook={(selected) => {
+                    console.log(selected)
+                    // setValue("languages", [...selected])
+                  }}
+                />
+              )}
+
+              <div className="flex gap-2">
+                <button
+                  className="btn btn-outline btn-error"
+                  type="button"
+                >
+                  {isDeleting ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : (
+                    <TrashIcon className="h-5 w-5" />
+                  )}
+                  Deletar
+                </button>
+                <button
+                  className="btn w-max"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting && (
+                    <span className="loading loading-spinner"></span>
+                  )}
+                  Criar Evento
+                </button>
+              </div>
+            </form>
           </div>
           <form method="dialog" className="modal-backdrop">
             <button>close</button>

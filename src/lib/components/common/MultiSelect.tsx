@@ -1,13 +1,20 @@
 import { useState } from "react"
 
+import { Id } from "@types"
+
 import { Theme, useTheme } from "@context"
+
+export type MultiSelectOption = {
+  key: string
+  value: string
+}
 
 type MultiSelectProps = {
   label: string
   placeholder: string
-  options: string[]
-  initialSelection?: string[]
-  onChangeHook: (selected: Set<string>) => void
+  options: MultiSelectOption[]
+  initialSelection?: MultiSelectOption[]
+  onChangeHook: (selected: MultiSelectOption[]) => void
   colSpan?: number | string
 }
 
@@ -19,23 +26,32 @@ export function MultiSelect({
   onChangeHook,
   colSpan = 1,
 }: MultiSelectProps) {
-  const [selected, setSelected] = useState<string[]>(
-    initialSelection ?? []
-  )
+  const [selected, setSelected] = useState<
+    MultiSelectOption[]
+  >(initialSelection ?? [])
 
   function handleToggle(
     e: React.MouseEvent<HTMLInputElement>
   ) {
-    const clicked = (e.target as HTMLInputElement).dataset
-      .value!
-    const selectedSet = new Set(selected)
+    const target = e.target as HTMLInputElement
+    const dataset = target.dataset
 
-    selectedSet.has(clicked)
-      ? selectedSet.delete(clicked)
-      : selectedSet.add(clicked)
+    const clicked = {
+      key: dataset.key!,
+      value: dataset.value!,
+    }
+    const selectedSet = new Set(selected.map((s) => s.key))
 
-    onChangeHook(selectedSet)
-    setSelected([...selectedSet])
+    selectedSet.has(clicked.key)
+      ? selectedSet.delete(clicked.key)
+      : selectedSet.add(clicked.key)
+
+    const newSelected = options.filter((o) =>
+      selectedSet.has(o.key)
+    )
+
+    onChangeHook(newSelected)
+    setSelected(newSelected)
   }
 
   function hasSelection() {
@@ -75,7 +91,7 @@ export function MultiSelect({
                 className="text-neutral-100 bg-neutral-700 p-[8px] rounded-xl"
                 key={i}
               >
-                {l}
+                {l.value}
               </span>
             )
           })}
@@ -85,12 +101,15 @@ export function MultiSelect({
             <div key={i} className="flex gap-2">
               <input
                 type="checkbox"
-                defaultChecked={selected.includes(option)}
+                defaultChecked={selected
+                  .map((s) => s.value)
+                  .includes(option.value)}
                 className="checkbox"
-                data-value={option}
+                data-key={option.key}
+                data-value={option.value}
                 onClick={handleToggle}
               />
-              <p>{option}</p>
+              <p>{option.value}</p>
             </div>
           ))}
         </div>

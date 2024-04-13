@@ -224,8 +224,7 @@ model CalendarSlot {
   name      String?
   //--------------------------------------------------------
   // Relationships
-  event     Event?   @relation(fields: [eventId], references: [id])
-  eventId   Int?
+  events    Event[]
   creator   User     @relation(fields: [creatorId], references: [id])
   creatorId Int
   //--------------------------------------------------------

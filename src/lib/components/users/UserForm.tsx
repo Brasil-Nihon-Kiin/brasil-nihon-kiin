@@ -167,10 +167,17 @@ function PersonalDataFormSection() {
         label="Línguas"
         placeholder="Escolha uma ou mais línguas"
         colSpan={"full"}
-        options={mostPopularLanguagesInPortuguese}
-        initialSelection={user.languages}
+        options={mostPopularLanguagesInPortuguese.map(
+          (l) => ({ key: l, value: l })
+        )}
+        initialSelection={user.languages.map((l) => ({
+          key: l,
+          value: l,
+        }))}
         onChangeHook={(selected) => {
-          setValue("languages", [...selected])
+          setValue("languages", [
+            ...selected.map((s) => s.value),
+          ])
         }}
       />
     </>
@@ -191,19 +198,20 @@ function OfOriginSection() {
       <MultiSelect
         label="País(es) de Origem"
         placeholder="Escolha um ou mais países"
-        options={mostImportantCountriesListInPortuguese.map(
-          countryWithEmoji
-        )}
+        options={mostImportantCountriesListInPortuguese
+          .map(countryWithEmoji)
+          .map((c) => ({ key: c, value: c }))}
         initialSelection={mostImportantCountriesListInPortuguese
           .filter((c) =>
             user.nationalities.includes(c.name)
           )
-          .map((c) => `${c.emoji} ${c.name}`)}
+          .map((c) => `${c.emoji} ${c.name}`)
+          .map((c) => ({ key: c, value: c }))}
         onChangeHook={(selected) => {
           setValue(
             "nationalities",
             [...selected].map((s) =>
-              s.split(" ").slice(1).join(" ")
+              s.value.split(" ").slice(1).join(" ")
             )
           )
         }}
