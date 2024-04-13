@@ -16,11 +16,6 @@ import interactionPlugin, {
 import ptLocale from "@fullcalendar/core/locales/pt-br"
 import { EventImpl } from "@fullcalendar/core/internal"
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-
-import { TrashIcon } from "@heroicons/react/24/solid"
-
 import { standardNanoid, toDate } from "@utils"
 
 import {
@@ -28,18 +23,11 @@ import {
   updateCalendarSlotTime,
 } from "@actions"
 
-import {
-  CalendarSlotValidation,
-  calendarSlotSchema,
-} from "@validation"
+import {} from "@validation"
 
-import {
-  useCalendarSlots,
-  useClerkUser,
-  useEvents,
-} from "@hooks"
+import { useCalendarSlots, useClerkUser } from "@hooks"
 
-import { MultiSelect, TextField } from "../common/exports"
+import { CalendarSlotEditingModal } from "../calendar_slots/CalendarSlotEditingModal"
 
 const events: EventInput[] = [
   {
@@ -197,110 +185,5 @@ export function EventsCalendar({
         calendarSlot={clickedEvent}
       />
     </div>
-  )
-}
-
-type EventModalProps = {
-  calendarSlot?: EventImpl
-}
-
-function CalendarSlotEditingModal({
-  calendarSlot,
-}: EventModalProps) {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<CalendarSlotValidation>({
-    resolver: zodResolver(calendarSlotSchema),
-  })
-
-  const [isDeleting, setIsDeleting] = useState(false)
-
-  async function onSubmit(newData: CalendarSlotValidation) {
-    try {
-      await updateCalendarSlotTime(
-        calendarSlot!.id,
-        toDate(calendarSlot!.start!),
-        toDate(calendarSlot!.end!),
-        newData.name,
-        newData.associatedEvents
-      )
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  const { events } = useEvents()
-
-  return (
-    <dialog id="calendar-slot-edit" className="modal">
-      {event && (
-        <>
-          <div className="modal-box flex flex-col gap-4">
-            <h2 className="font-medium text-2xl pl-1">
-              Editar Horário de Calendário
-            </h2>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="grid grid-cols-1 justify-items-end gap-4"
-            >
-              <TextField<CalendarSlotValidation>
-                errors={errors}
-                register={register}
-                field="name"
-                label="Nome"
-                placeholder="Torneio Nacional..."
-              />
-              {events && (
-                <MultiSelect
-                  label="Eventos Associados"
-                  placeholder="Escolha um ou mais eventos"
-                  colSpan={"full"}
-                  options={events.map((e) => ({
-                    key: e.nanoid,
-                    value: e.name,
-                  }))}
-                  // initialSelection={user.languages}
-                  onChangeHook={(selected) => {
-                    setValue("associatedEvents", [
-                      ...selected.map((s) => s.key),
-                    ])
-                  }}
-                />
-              )}
-
-              <div className="flex gap-2">
-                <button
-                  className="btn btn-outline btn-error"
-                  type="button"
-                >
-                  {isDeleting ? (
-                    <span className="loading loading-spinner"></span>
-                  ) : (
-                    <TrashIcon className="h-5 w-5" />
-                  )}
-                  Deletar
-                </button>
-                <button
-                  className="btn w-max"
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting && (
-                    <span className="loading loading-spinner"></span>
-                  )}
-                  Criar Evento
-                </button>
-              </div>
-            </form>
-          </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </>
-      )}
-    </dialog>
   )
 }
