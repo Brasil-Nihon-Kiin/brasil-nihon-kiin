@@ -2,19 +2,26 @@ import { useState } from "react"
 
 import {
   DateSelectArg,
+  EventClickArg,
+  EventDropArg,
   EventInput,
 } from "@fullcalendar/core"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import listPlugin from "@fullcalendar/list"
-import interactionPlugin from "@fullcalendar/interaction"
+import interactionPlugin, {
+  EventDragStopArg,
+  EventResizeDoneArg,
+} from "@fullcalendar/interaction"
 import ptLocale from "@fullcalendar/core/locales/pt-br"
 import { EventImpl } from "@fullcalendar/core/internal"
 import { standardNanoid } from "../../utils/server_utils"
 import { useCalendarSlots } from "../../hooks/use_calendar_slots"
 import { postCalendarSlot } from "../../actions/exports"
 import { useClerkUser } from "../../hooks/use_users"
+import { updateCalendarSlotTime } from "../../actions/calendar_slots/update_calendar_slot"
+import { toDate } from "../../utils/utils"
 
 const events: EventInput[] = [
   {
@@ -52,15 +59,6 @@ type EventsCalendarProps = {
 export function EventsCalendar({
   initialView = EventsCalendarView.dayMonth,
 }: EventsCalendarProps) {
-  const width =
-    initialView === EventsCalendarView.dayMonth
-      ? "60%"
-      : "90%"
-  const height =
-    initialView === EventsCalendarView.dayMonth
-      ? ""
-      : "400px"
-
   const [clickedEvent, setClickedEvent] =
     useState<EventImpl>()
 
@@ -79,7 +77,7 @@ export function EventsCalendar({
 
   const { user } = useClerkUser()
 
-  async function handleSelectCalendarSlot(
+  async function handleClickEmptyCalendarSlot(
     selected: DateSelectArg
   ) {
     const calendarApi = selected.view.calendar
@@ -88,8 +86,8 @@ export function EventsCalendar({
     try {
       await postCalendarSlot(
         user!.id,
-        new Date(selected.start),
-        new Date(selected.endStr)
+        toDate(selected.start),
+        toDate(selected.endStr)
       )
 
       calendarApi.addEvent({
@@ -104,13 +102,48 @@ export function EventsCalendar({
     }
   }
 
+  async function handleResizeOrDrag(
+    data: EventResizeDoneArg | EventDropArg
+  ) {
+    try {
+      const event = data.event
+
+      await updateCalendarSlotTime(
+        event.id,
+        toDate(event.start!),
+        toDate(event.end!)
+      )
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  function handleCalendarSlotClick(data: EventClickArg) {
+    const event = data.event
+    setClickedEvent(event)
+
+    const dialog = document.getElementById(
+      "calendar-slot-edit"
+    ) as HTMLDialogElement
+    dialog.showModal()
+  }
+
+  const width =
+    initialView === EventsCalendarView.dayMonth
+      ? "60%"
+      : "90%"
+  const height =
+    initialView === EventsCalendarView.dayMonth
+      ? ""
+      : "600px"
+
   return (
     <div
-      className={`card w-[90%] h-[400px] p-4 bg-base-300 shadow-xl`}
+      className={`card w-[${width}] p-4 bg-base-300 shadow-xl`}
     >
       <FullCalendar
         locale={ptLocale}
-        height="100%"
+        height={height}
         plugins={[
           dayGridPlugin,
           timeGridPlugin,
@@ -134,31 +167,10 @@ export function EventsCalendar({
         selectMirror={true}
         selectable={true}
         events={[...events, ...mappedCalendarSlots()]}
-        select={handleSelectCalendarSlot}
-        eventResize={(data) => {
-          console.log(data.event.start)
-          console.log(data.event.end)
-        }}
-        eventDragStop={(data) => {
-          console.log(data.event.end)
-        }}
-        eventClick={(data) => {
-          const event = data.event
-          setClickedEvent(event)
-
-          const dialog = document.getElementById(
-            "my_modal_2"
-          ) as HTMLDialogElement
-          dialog.showModal()
-        }}
-        eventDidMount={(data) => {
-          const eventEl = data.el
-          const event = data.event
-          eventEl.ondblclick = () => {
-            console.log("here dbl")
-            event.remove()
-          }
-        }}
+        select={handleClickEmptyCalendarSlot}
+        eventResize={handleResizeOrDrag}
+        eventDrop={handleResizeOrDrag}
+        eventClick={handleCalendarSlotClick}
       />
       <CalendarSlotEditingModal event={clickedEvent} />
     </div>
@@ -173,7 +185,7 @@ function CalendarSlotEditingModal({
   event,
 }: EventModalProps) {
   return (
-    <dialog id="my_modal_2" className="modal">
+    <dialog id="calendar-slot-edit" className="modal">
       {event && (
         <>
           <div className="modal-box">
