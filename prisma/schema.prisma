@@ -58,6 +58,7 @@ model User {
   articles           Article[]
   comments           Comment[]
   purchases          Sale[]
+  events             Event[]
   //--------------------------------------------------------
 }
 
@@ -197,12 +198,14 @@ model Event {
   //--------------------------------------------------------
   // Data
   name          String
-  description   String
+  description   String?
   category      String
   //--------------------------------------------------------
   // Relationships
   calendarSlots CalendarSlot[]
   articles      Article[]
+  creator       User           @relation(fields: [creatorId], references: [id])
+  creatorId     Int
   //--------------------------------------------------------
 }
 

@@ -15,6 +15,10 @@ import {
   eventFormSchema,
 } from "@validation"
 
+import { postEvent } from "@actions"
+
+import { useClerkUser, useUser } from "@hooks"
+
 import { Select, TextArea, TextField } from "@components"
 
 export function CreateEvent() {
@@ -22,7 +26,7 @@ export function CreateEvent() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<EventFormValidation>({
     resolver: zodResolver(eventFormSchema),
   })
@@ -33,7 +37,15 @@ export function CreateEvent() {
     ) as HTMLDialogElement
   }
 
+  const { user } = useClerkUser()
+
   async function onSubmit(newData: EventFormValidation) {
+    await postEvent(
+      user!.id,
+      newData.name,
+      newData.category,
+      newData.description
+    )
     const modal = getModal()
     modal.close()
   }
@@ -76,6 +88,7 @@ export function CreateEvent() {
                   stringToEventCategory(selected)
                 )
               }}
+              errors={errors.category}
             />
             <TextArea<EventFormValidation>
               errors={errors}
@@ -86,7 +99,11 @@ export function CreateEvent() {
               placeholder="Este evento é..."
             />
 
-            <button className="btn w-max" type="submit">
+            <button
+              className="btn w-max"
+              type="submit"
+              disabled={isSubmitting}
+            >
               Criar Evento
             </button>
           </form>

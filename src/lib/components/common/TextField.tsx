@@ -12,6 +12,7 @@ import { rankings } from "@utils"
 import { GoUserAndStrengthSchema } from "@validation"
 
 import { Select } from "./Select"
+import { FormErrorMessage } from "./FormErrorMessage"
 
 export enum TextFieldTypes {
   Text = "text",
@@ -20,7 +21,7 @@ export enum TextFieldTypes {
 
 type TextFieldProps<T extends FieldValues> = {
   errors?: FieldErrors<T>
-  register?: UseFormRegister<T>
+  register: UseFormRegister<T>
   field: string
   label: string
   placeholder: string
@@ -47,18 +48,19 @@ export function TextField<T extends FieldValues>({
         <span className="label-text">{label}</span>
       </div>
       <input
-        {...(register && register(field as Path<T>))}
+        {...register(field as Path<T>)}
         placeholder={placeholder}
         className="input input-bordered text-sm w-full"
         type={type}
         onChange={(e) => {
           const target = e.target as HTMLInputElement
-          console.log(target.value)
           if (onChangeHook) onChangeHook(target.value)
         }}
       />
       {errors && errors[field] && (
-        <p className="text-red-500">{`${errors[field]?.message}`}</p>
+        <FormErrorMessage
+          message={`${errors[field]?.message}`}
+        />
       )}
     </label>
   )
@@ -89,7 +91,9 @@ export function DateField<T extends FieldValues>({
         className="input input-bordered text-sm w-full max-w-xs"
       />
       {errors && errors[field] && (
-        <p className="text-red-500">{`${errors[field]?.message}`}</p>
+        <FormErrorMessage
+          message={`${errors[field]?.message}`}
+        />
       )}
     </label>
   )
@@ -116,7 +120,9 @@ export function TextArea<T extends FieldValues>({
         placeholder={placeholder}
       ></textarea>
       {errors && errors[field] && (
-        <p className="text-red-500">{`${errors[field]?.message}`}</p>
+        <FormErrorMessage
+          message={`${errors[field]?.message}`}
+        />
       )}
     </label>
   )

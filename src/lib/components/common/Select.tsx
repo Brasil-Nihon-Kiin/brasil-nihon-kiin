@@ -1,9 +1,12 @@
+import { FieldValues } from "react-hook-form"
+
 type SelectProps = {
   label: string
   placeholder: string
   options: string[]
   initialSelection?: string | null | undefined
   onChangeHook?: (selected: string) => void
+  errors?: FieldValues
 }
 
 export function Select({
@@ -12,6 +15,7 @@ export function Select({
   options,
   initialSelection,
   onChangeHook,
+  errors,
 }: SelectProps) {
   return (
     <label className="form-control w-full">
@@ -36,6 +40,9 @@ export function Select({
           </option>
         ))}
       </select>
+      {errors && (
+        <p className="mt-1 ml-4 text-error text-sm">{`${errors.message}`}</p>
+      )}
     </label>
   )
 }
