@@ -2,12 +2,12 @@
 
 import { prisma, toJSON } from "@utils"
 
-import { Nid } from "@types"
+import { Nanoid } from "@types"
 
 import { UserFormValidation } from "@validation"
 
 export async function updateUser(
-  nid: Nid,
+  nid: Nanoid,
   userForm: UserFormValidation
 ) {
   try {

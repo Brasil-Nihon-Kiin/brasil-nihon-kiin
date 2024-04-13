@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import {
   ArticleWithCreator,
   LoadingState,
-  Nid,
+  Nanoid,
 } from "@types"
 
 import { getArticle, getArticles } from "@actions"
@@ -36,7 +36,7 @@ export function useArticles(totalArticles?: number) {
   return { loadingState, articles }
 }
 
-export function useArticle(nid: Nid) {
+export function useArticle(nid: Nanoid) {
   const [loadingState, setLoadingState] = useState(
     LoadingState.NotYet
   )

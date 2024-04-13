@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation"
 
-import { LoadingState, Nid } from "@types"
+import { LoadingState, Nanoid } from "@types"
 
 import { useArticle } from "@hooks"
 
@@ -10,7 +10,7 @@ import { Article, Progress } from "@components"
 
 export default function ArticleView() {
   const params = useParams()
-  const articleNid = params.article_nid as Nid
+  const articleNid = params.article_nid as Nanoid
 
   const { article, loadingState } = useArticle(articleNid)
 

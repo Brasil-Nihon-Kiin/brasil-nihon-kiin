@@ -2,7 +2,7 @@
 
 import { prisma, toJSON } from "@utils"
 
-import { Nid } from "@types"
+import { Nanoid } from "@types"
 
 export async function getCalendarSlots() {
   try {
@@ -19,7 +19,7 @@ export async function getCalendarSlots() {
   }
 }
 
-export async function getCalendarSlot(nid: Nid) {
+export async function getCalendarSlot(nid: Nanoid) {
   try {
     const calendarSlot =
       await prisma.calendarSlot.findUnique({

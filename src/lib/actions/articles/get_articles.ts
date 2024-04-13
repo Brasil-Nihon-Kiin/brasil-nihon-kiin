@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 
 import { prisma, toJSON } from "@utils"
 
-import { Nid } from "@types"
+import { Nanoid } from "@types"
 
 export async function getArticles(totalArticles?: number) {
   try {
@@ -20,7 +20,7 @@ export async function getArticles(totalArticles?: number) {
   }
 }
 
-export async function getArticle(nid: Nid) {
+export async function getArticle(nid: Nanoid) {
   try {
     const article = await prisma.article.findUnique({
       where: { nanoid: nid },
