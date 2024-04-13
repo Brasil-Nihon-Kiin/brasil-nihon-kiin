@@ -3,6 +3,7 @@
 import { setTitle } from "@utils"
 
 import {
+  CreateEvent,
   EventsCalendar,
   EventsCalendarView,
 } from "@components"
@@ -11,8 +12,11 @@ export default function Calendario() {
   setTitle("Calendário")
 
   return (
-    <EventsCalendar
-      initialView={EventsCalendarView.timeWeek}
-    />
+    <div className="flex flex-col w-full items-center justify-center gap-4">
+      <CreateEvent />
+      <EventsCalendar
+        initialView={EventsCalendarView.timeWeek}
+      />
+    </div>
   )
 }

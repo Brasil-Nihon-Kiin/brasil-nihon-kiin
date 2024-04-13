@@ -8,6 +8,7 @@ import listPlugin from "@fullcalendar/list"
 import interactionPlugin from "@fullcalendar/interaction"
 import ptLocale from "@fullcalendar/core/locales/pt-br"
 import { EventImpl } from "@fullcalendar/core/internal"
+import { standardNanoid } from "../../utils/server_utils"
 
 const events: EventInput[] = [
   {
@@ -85,10 +86,23 @@ export function EventsCalendar({
         eventStartEditable={true}
         dragScroll={true}
         selectMirror={true}
-        selectable={false}
+        selectable={true}
         events={events}
+        select={(selected) => {
+          const calendarApi = selected.view.calendar
+          calendarApi.unselect()
+
+          calendarApi.addEvent({
+            id: standardNanoid(),
+            title: "",
+            start: selected.startStr,
+            end: selected.endStr,
+            backgroundColor: "green",
+          })
+        }}
         eventResize={(data) => {
           console.log(data.event.start)
+          console.log(data.event.end)
         }}
         eventDragStop={(data) => {
           console.log(data.event.end)

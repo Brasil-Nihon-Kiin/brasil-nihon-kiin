@@ -1,4 +1,5 @@
 export * from "./article"
+export * from "./event"
 export * from "./id"
 export * from "./loading"
 export * from "./react"

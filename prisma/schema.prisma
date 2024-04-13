@@ -198,6 +198,7 @@ model Event {
   // Data
   name          String
   description   String
+  category      String
   //--------------------------------------------------------
   // Relationships
   calendarSlots CalendarSlot[]
