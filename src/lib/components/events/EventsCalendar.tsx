@@ -19,6 +19,8 @@ import { EventImpl } from "@fullcalendar/core/internal"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import { TrashIcon } from "@heroicons/react/24/solid"
+
 import { standardNanoid, toDate } from "@utils"
 
 import {
@@ -28,7 +30,7 @@ import {
 
 import {
   CalendarSlotValidation,
-  eventFormSchema,
+  calendarSlotSchema,
 } from "@validation"
 
 import {
@@ -38,7 +40,6 @@ import {
 } from "@hooks"
 
 import { MultiSelect, TextField } from "../common/exports"
-import { TrashIcon } from "@heroicons/react/24/solid"
 
 const events: EventInput[] = [
   {
@@ -88,6 +89,9 @@ export function EventsCalendar({
           id: c.nanoid,
           start: c.startTime,
           end: c.endTime,
+          extendedProps: {
+            associatedEventsIds: c.events,
+          },
         }))
       : []
   }
@@ -189,17 +193,19 @@ export function EventsCalendar({
         eventDrop={handleResizeOrDrag}
         eventClick={handleCalendarSlotClick}
       />
-      <CalendarSlotEditingModal event={clickedEvent} />
+      <CalendarSlotEditingModal
+        calendarSlot={clickedEvent}
+      />
     </div>
   )
 }
 
 type EventModalProps = {
-  event?: EventImpl
+  calendarSlot?: EventImpl
 }
 
 function CalendarSlotEditingModal({
-  event,
+  calendarSlot,
 }: EventModalProps) {
   const {
     register,
@@ -207,7 +213,7 @@ function CalendarSlotEditingModal({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<CalendarSlotValidation>({
-    resolver: zodResolver(eventFormSchema),
+    resolver: zodResolver(calendarSlotSchema),
   })
 
   const [isDeleting, setIsDeleting] = useState(false)
@@ -215,10 +221,11 @@ function CalendarSlotEditingModal({
   async function onSubmit(newData: CalendarSlotValidation) {
     try {
       await updateCalendarSlotTime(
-        event!.id,
-        toDate(event!.start!),
-        toDate(event!.end!),
-        newData.name
+        calendarSlot!.id,
+        toDate(calendarSlot!.start!),
+        toDate(calendarSlot!.end!),
+        newData.name,
+        newData.associatedEvents
       )
     } catch (e) {
       console.error(e)
@@ -257,8 +264,9 @@ function CalendarSlotEditingModal({
                   }))}
                   // initialSelection={user.languages}
                   onChangeHook={(selected) => {
-                    console.log(selected)
-                    // setValue("languages", [...selected])
+                    setValue("associatedEvents", [
+                      ...selected.map((s) => s.key),
+                    ])
                   }}
                 />
               )}

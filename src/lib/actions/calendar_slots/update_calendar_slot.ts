@@ -20,6 +20,11 @@ export async function updateCalendarSlotTime(
         startTime,
         endTime,
         name,
+        events: {
+          connect: associatedEventsIds?.map((e) => ({
+            nanoid: e,
+          })),
+        },
       },
     })
 

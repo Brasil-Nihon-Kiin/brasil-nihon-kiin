@@ -1,10 +1,11 @@
 "use client"
 
-import { CalendarSlot } from "@prisma/client"
-
 import { useEffect, useState } from "react"
 
-import { LoadingState } from "@types"
+import {
+  CalendarSlotWithEvents,
+  LoadingState,
+} from "@types"
 
 import { getCalendarSlots } from "@actions"
 
@@ -14,7 +15,7 @@ export function useCalendarSlots() {
   )
 
   const [calendarSlots, setCalendarSlots] =
-    useState<CalendarSlot[]>()
+    useState<CalendarSlotWithEvents[]>()
 
   useEffect(() => {
     async function getUserData() {

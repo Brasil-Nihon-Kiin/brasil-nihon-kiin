@@ -11,6 +11,9 @@ export async function getCalendarSlots() {
         orderBy: {
           startTime: "desc",
         },
+        include: {
+          events: true,
+        },
       })
 
     return toJSON(calendarSlots)
