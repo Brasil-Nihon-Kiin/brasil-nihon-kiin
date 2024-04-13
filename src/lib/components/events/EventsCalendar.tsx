@@ -1,6 +1,9 @@
 import { useState } from "react"
 
-import { EventInput } from "@fullcalendar/core"
+import {
+  DateSelectArg,
+  EventInput,
+} from "@fullcalendar/core"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
@@ -9,6 +12,9 @@ import interactionPlugin from "@fullcalendar/interaction"
 import ptLocale from "@fullcalendar/core/locales/pt-br"
 import { EventImpl } from "@fullcalendar/core/internal"
 import { standardNanoid } from "../../utils/server_utils"
+import { useCalendarSlots } from "../../hooks/use_calendar_slots"
+import { postCalendarSlot } from "../../actions/exports"
+import { useClerkUser } from "../../hooks/use_users"
 
 const events: EventInput[] = [
   {
@@ -58,6 +64,46 @@ export function EventsCalendar({
   const [clickedEvent, setClickedEvent] =
     useState<EventImpl>()
 
+  const { calendarSlots } = useCalendarSlots()
+
+  function mappedCalendarSlots() {
+    return calendarSlots
+      ? calendarSlots?.map((c) => ({
+          ...c,
+          id: c.nanoid,
+          start: c.startTime,
+          end: c.endTime,
+        }))
+      : []
+  }
+
+  const { user } = useClerkUser()
+
+  async function handleSelectCalendarSlot(
+    selected: DateSelectArg
+  ) {
+    const calendarApi = selected.view.calendar
+    calendarApi.unselect()
+
+    try {
+      await postCalendarSlot(
+        user!.id,
+        new Date(selected.start),
+        new Date(selected.endStr)
+      )
+
+      calendarApi.addEvent({
+        id: standardNanoid(),
+        title: "",
+        start: selected.startStr,
+        end: selected.endStr,
+        backgroundColor: "green",
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
     <div
       className={`card w-[90%] h-[400px] p-4 bg-base-300 shadow-xl`}
@@ -87,19 +133,8 @@ export function EventsCalendar({
         dragScroll={true}
         selectMirror={true}
         selectable={true}
-        events={events}
-        select={(selected) => {
-          const calendarApi = selected.view.calendar
-          calendarApi.unselect()
-
-          calendarApi.addEvent({
-            id: standardNanoid(),
-            title: "",
-            start: selected.startStr,
-            end: selected.endStr,
-            backgroundColor: "green",
-          })
-        }}
+        events={[...events, ...mappedCalendarSlots()]}
+        select={handleSelectCalendarSlot}
         eventResize={(data) => {
           console.log(data.event.start)
           console.log(data.event.end)

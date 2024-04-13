@@ -1,4 +1,5 @@
 export * from "./articles/exports"
+export * from "./calendar_slots/exports"
 export * from "./events/exports"
 export * from "./games/exports"
 export * from "./users/exports"
