@@ -104,6 +104,9 @@ export function CreateEvent() {
               type="submit"
               disabled={isSubmitting}
             >
+              {isSubmitting && (
+                <span className="loading loading-spinner"></span>
+              )}
               Criar Evento
             </button>
           </form>

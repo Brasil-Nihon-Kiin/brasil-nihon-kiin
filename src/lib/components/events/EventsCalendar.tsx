@@ -125,7 +125,7 @@ export function EventsCalendar({
           }
         }}
       />
-      <EventModal event={clickedEvent} />
+      <CalendarSlotEditingModal event={clickedEvent} />
     </div>
   )
 }
@@ -134,7 +134,9 @@ type EventModalProps = {
   event?: EventImpl
 }
 
-function EventModal({ event }: EventModalProps) {
+function CalendarSlotEditingModal({
+  event,
+}: EventModalProps) {
   return (
     <dialog id="my_modal_2" className="modal">
       {event && (

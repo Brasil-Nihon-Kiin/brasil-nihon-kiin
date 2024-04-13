@@ -10,15 +10,15 @@ datasource db {
 model User {
   //--------------------------------------------------------
   // Metadata
-  id                 Int       @id @default(autoincrement())
-  nanoid             String    @unique
-  clerkId            String    @unique
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @default(now())
+  id                 Int            @id @default(autoincrement())
+  nanoid             String         @unique
+  clerkId            String         @unique
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @default(now())
   //--------------------------------------------------------
   // Data
-  email              String    @unique
-  username           String    @unique
+  email              String         @unique
+  username           String         @unique
   // Profile Data
   firstName          String?
   lastName           String?
@@ -46,19 +46,20 @@ model User {
   // theme              String?
   //--------------------------------------------------------
   // Status
-  isAdmin            Boolean   @default(false)
-  isWriter           Boolean   @default(false)
-  isTeacher          Boolean   @default(false)
-  isPrivate          Boolean   @default(false)
+  isAdmin            Boolean        @default(false)
+  isWriter           Boolean        @default(false)
+  isTeacher          Boolean        @default(false)
+  isPrivate          Boolean        @default(false)
   //--------------------------------------------------------
   // Relationships
-  blackGames         Game[]    @relation("blackPlayer")
-  whiteGames         Game[]    @relation("whitePlayer")
-  wins               Game[]    @relation("winnerPlayer")
+  blackGames         Game[]         @relation("blackPlayer")
+  whiteGames         Game[]         @relation("whitePlayer")
+  wins               Game[]         @relation("winnerPlayer")
   articles           Article[]
   comments           Comment[]
   purchases          Sale[]
   events             Event[]
+  calendarSlots      CalendarSlot[]
   //--------------------------------------------------------
 }
 
@@ -225,6 +226,8 @@ model CalendarSlot {
   // Relationships
   event     Event?   @relation(fields: [eventId], references: [id])
   eventId   Int?
+  creator   User     @relation(fields: [creatorId], references: [id])
+  creatorId Int
   //--------------------------------------------------------
 }
 
