@@ -31,11 +31,22 @@ export function Article({ article }: ArticleProps) {
   )
 }
 
-export function ArticleCard({ article }: ArticleProps) {
+type ArticleCardProps = {
+  article: ArticleWithCreator
+  width?: string
+}
+
+export function ArticleCard({
+  article,
+  width,
+}: ArticleCardProps) {
   const clippedContent = clipString(article.abstract ?? "")
 
   return (
-    <Link href={`/artigos/${article.nanoid}`}>
+    <Link
+      href={`/artigos/${article.nanoid}`}
+      className={`w-[${width}]`}
+    >
       <div className="card bg-neutral shadow-xl h-max">
         <div className="card-body gap-4 px-7 py-6">
           <h2 className="card-title text-neutral-100">
@@ -44,7 +55,11 @@ export function ArticleCard({ article }: ArticleProps) {
           <ArticleDate date={toDate(article.updatedAt)} />
           <ArticleAuthor author={article.author} />
           <p className="text-neutral-200 text-sm">
-            {clippedContent}
+            {/* {clippedContent} */}
+            wwwwwwwwwwwwwwwwwwwwwwwwwwwwlajdf
+            alkafjsdlkfjaljdslkfjadlskjf lasjdf lasdjfla
+            sdflja sdlkfjalsjf dlakj dflkaj sldfj
+            lajflkasjdf lkjaslfd
           </p>
         </div>
       </div>
@@ -60,7 +75,6 @@ function ArticleDate({ date }: ArticleDateProps) {
   return (
     <p className="text-neutral-300 text-xs">
       {date.toLocaleDateString("pt-BR")}{" "}
-      {/* {date.toLocaleTimeString("pt-BR")} */}
     </p>
   )
 }
@@ -92,13 +106,18 @@ function ArticleAuthor({
 type ArticlesListProps = {
   articles: ArticleWithCreator[]
   totalCols?: number
+  width?: string
 }
 
 export function ArticlesList({
   articles,
+  width,
 }: ArticlesListProps) {
   return (
-    <section className={`h-max flex flex-col gap-4`}>
+    <section
+      className="h-max flex flex-col gap-4"
+      style={{ width }}
+    >
       {articles.map((article, i) => {
         return <ArticleCard key={i} article={article} />
       })}

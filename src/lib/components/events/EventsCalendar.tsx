@@ -23,8 +23,6 @@ import {
   updateCalendarSlotTime,
 } from "@actions"
 
-import {} from "@validation"
-
 import { useCalendarSlots, useClerkUser } from "@hooks"
 
 import { CalendarSlotEditingModal } from "../calendar_slots/CalendarSlotEditingModal"
@@ -143,12 +141,15 @@ export function EventsCalendar({
       : "90%"
   const height =
     initialView === EventsCalendarView.dayMonth
-      ? ""
-      : "600px"
+      ? "400px"
+      : "800px"
 
   return (
     <div
-      className={`card w-[${width}] p-4 bg-base-300 shadow-xl`}
+      className="card p-4 bg-base-300 shadow-xl"
+      style={{
+        width,
+      }}
     >
       <FullCalendar
         locale={ptLocale}

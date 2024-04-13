@@ -19,7 +19,7 @@ export default function ArticlesView() {
         Artigos
       </h1>
       {articles ? (
-        <ArticlesList articles={articles} />
+        <ArticlesList articles={articles} width="80vw" />
       ) : null}
     </div>
   )
