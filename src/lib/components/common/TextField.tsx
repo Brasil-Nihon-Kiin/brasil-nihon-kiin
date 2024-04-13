@@ -17,6 +17,7 @@ import { FormErrorMessage } from "./FormErrorMessage"
 export enum TextFieldTypes {
   Text = "text",
   Url = "url",
+  Checkbox = "checkbox",
 }
 
 type TextFieldProps<T extends FieldValues> = {
@@ -142,7 +143,7 @@ export function SocialsField({
   label,
   placeholder,
   colSpan = "full",
-  type = TextFieldTypes.Text,
+  type = TextFieldTypes.Url,
   brandIcon,
   initialValue,
   onChangeHook,
