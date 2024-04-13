@@ -27,21 +27,32 @@ export function CurrentUserAvatar() {
 
 type UserAvatarProps = {
   user: User
+  size?: string
 }
 
-export function UserAvatar({ user }: UserAvatarProps) {
+export function UserAvatar({
+  user,
+  size = "24px",
+}: UserAvatarProps) {
   if (user.imageLink) {
     return (
       <div className="avatar">
-        <div className="w-6 rounded-full">
-          <Image src={user.imageLink} alt={user.username} />
+        <div className="rounded-full">
+          <Image
+            src={user.imageLink}
+            alt={user.username}
+            style={{ height: size, width: size }}
+          />
         </div>
       </div>
     )
   } else {
     return (
       <div className="avatar placeholder">
-        <div className="bg-neutral-100 text-neutral-content rounded-full w-6">
+        <div
+          className="bg-neutral-100 text-neutral-content rounded-full"
+          style={{ height: size, width: size }}
+        >
           <span className="text-neutral-700">
             {user.username.first().toUpperCase()}
           </span>

@@ -8,7 +8,7 @@ import { useArticles } from "@hooks"
 
 import {
   ArticleEditor,
-  ArticlesList,
+  ArticlesCardList,
   Dialog,
   Progress,
   showDialog,
@@ -42,7 +42,10 @@ export default function ArticlesView() {
       </Dialog>
 
       {articles ? (
-        <ArticlesList articles={articles} width="80vw" />
+        <ArticlesCardList
+          articles={articles}
+          width="80vw"
+        />
       ) : null}
     </div>
   )
