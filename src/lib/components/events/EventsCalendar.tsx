@@ -141,12 +141,12 @@ export function EventsCalendar({
       : "90%"
   const height =
     initialView === EventsCalendarView.dayMonth
-      ? "400px"
+      ? "500px"
       : "800px"
 
   return (
     <div
-      className="card p-4 bg-base-300 shadow-xl"
+      className="card h-max p-4 bg-base-300 shadow-xl"
       style={{
         width,
       }}

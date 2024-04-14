@@ -32,6 +32,7 @@ export function ArticleEditor({
     formState: { errors, isSubmitting },
   } = useForm<ArticleFormValidation>({
     resolver: zodResolver(articleFormSchema),
+    defaultValues: article,
   })
 
   const { user } = useClerkUser()
@@ -96,7 +97,7 @@ export function ArticleEditor({
           errors={errors}
           register={register}
           field="thumbnailLink"
-          label="Título"
+          label="Link da Miniatura (Thumbnail)"
           type={TextFieldTypes.Url}
           placeholder="https://imgur.com/..."
         />

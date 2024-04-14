@@ -7,7 +7,7 @@ import { LoadingState } from "@types"
 import { useArticles } from "@hooks"
 
 import {
-  ArticlesList,
+  ArticlesCardList,
   EventsCalendar,
   Progress,
 } from "@components"
@@ -25,7 +25,10 @@ export default function Home() {
   if (articles) {
     return (
       <div className="flex gap-6 w-full">
-        <ArticlesList totalCols={1} articles={articles} />
+        <ArticlesCardList
+          totalCols={1}
+          articles={articles}
+        />
         <EventsCalendar />
       </div>
     )

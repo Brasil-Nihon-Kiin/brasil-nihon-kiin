@@ -27,19 +27,32 @@ export function CurrentUserAvatar() {
 
 type UserAvatarProps = {
   user: User
-  size?: string
+  size?: number
 }
 
 export function UserAvatar({
   user,
-  size = "24px",
+  size = 24,
 }: UserAvatarProps) {
   if (user.imageLink) {
+    const params = new URLSearchParams()
+
+    params.set("height", size.toString())
+    params.set("width", size.toString())
+    params.set("quality", "100")
+    params.set("fit", "crop")
+
+    const imageSrc = `${
+      user.imageLink
+    }?${params.toString()}`
+
     return (
       <div className="avatar">
         <div className="rounded-full">
           <Image
-            src={user.imageLink}
+            src={imageSrc}
+            width={size}
+            height={size}
             alt={user.username}
             style={{ height: size, width: size }}
           />
