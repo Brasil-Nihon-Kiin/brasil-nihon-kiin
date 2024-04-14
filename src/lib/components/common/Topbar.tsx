@@ -31,6 +31,7 @@ function PagesNav() {
     <ul className="menu menu-horizontal">
       <PagesNavItem href="/artigos" text="Artigos" />
       <PagesNavItem href="/calendario" text="Calendário" />
+      <PagesNavItem href="/sobre" text="Sobre" />
     </ul>
   )
 }
